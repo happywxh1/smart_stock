@@ -8,13 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */; };
-		ECA6182E1F1BBDCB004FE7E1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6182D1F1BBDCB004FE7E1 /* ViewController.swift */; };
 		ECA618311F1BBDCB004FE7E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */; };
 		ECA618341F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */; };
 		ECA618361F1BBDCB004FE7E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA618351F1BBDCB004FE7E1 /* Assets.xcassets */; };
 		ECA618391F1BBDCB004FE7E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECA618371F1BBDCB004FE7E1 /* LaunchScreen.storyboard */; };
 		ECA618441F1BBDCB004FE7E1 /* Smart_StockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618431F1BBDCB004FE7E1 /* Smart_StockTests.swift */; };
 		ECA6184F1F1BBDCB004FE7E1 /* Smart_StockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6184E1F1BBDCB004FE7E1 /* Smart_StockUITests.swift */; };
+		ECA6185F1F1BC508004FE7E1 /* XHStockListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6185E1F1BC508004FE7E1 /* XHStockListTableViewCell.swift */; };
+		ECA618611F1BD0CD004FE7E1 /* XHStockListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618601F1BD0CD004FE7E1 /* XHStockListTableViewController.swift */; };
+		ECA618631F2E3FCF004FE7E1 /* XHStockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618621F2E3FCF004FE7E1 /* XHStockInfo.swift */; };
+		ECA618651F2E427E004FE7E1 /* SP500StockSymbolList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618641F2E427E004FE7E1 /* SP500StockSymbolList.swift */; };
+		ECA618671F2E49FF004FE7E1 /* XHStockInfoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618661F2E49FF004FE7E1 /* XHStockInfoDownloader.swift */; };
+		ECA618691F2E569A004FE7E1 /* stockInfoFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618681F2E569A004FE7E1 /* stockInfoFetcherTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,20 +40,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ECA618281F1BBDCB004FE7E1 /* Smart Stock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Smart Stock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECA618281F1BBDCB004FE7E1 /* SmartStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ECA6182D1F1BBDCB004FE7E1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		ECA618301F1BBDCB004FE7E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ECA618331F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Smart_Stock.xcdatamodel; sourceTree = "<group>"; };
 		ECA618351F1BBDCB004FE7E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ECA618381F1BBDCB004FE7E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ECA6183A1F1BBDCB004FE7E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ECA6183F1F1BBDCB004FE7E1 /* Smart StockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Smart StockTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECA6183F1F1BBDCB004FE7E1 /* SmartStockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA618431F1BBDCB004FE7E1 /* Smart_StockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Smart_StockTests.swift; sourceTree = "<group>"; };
 		ECA618451F1BBDCB004FE7E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ECA6184A1F1BBDCB004FE7E1 /* Smart StockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Smart StockUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECA6184A1F1BBDCB004FE7E1 /* SmartStockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA6184E1F1BBDCB004FE7E1 /* Smart_StockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Smart_StockUITests.swift; sourceTree = "<group>"; };
 		ECA618501F1BBDCB004FE7E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECA6185E1F1BC508004FE7E1 /* XHStockListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XHStockListTableViewCell.swift; path = ../XHStockListTableViewCell.swift; sourceTree = "<group>"; };
+		ECA618601F1BD0CD004FE7E1 /* XHStockListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHStockListTableViewController.swift; sourceTree = "<group>"; };
+		ECA618621F2E3FCF004FE7E1 /* XHStockInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHStockInfo.swift; sourceTree = "<group>"; };
+		ECA618641F2E427E004FE7E1 /* SP500StockSymbolList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SP500StockSymbolList.swift; sourceTree = "<group>"; };
+		ECA618661F2E49FF004FE7E1 /* XHStockInfoDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHStockInfoDownloader.swift; sourceTree = "<group>"; };
+		ECA618681F2E569A004FE7E1 /* stockInfoFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stockInfoFetcherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +89,8 @@
 		ECA6181F1F1BBDCA004FE7E1 = {
 			isa = PBXGroup;
 			children = (
-				ECA6182A1F1BBDCB004FE7E1 /* Smart Stock */,
-				ECA618421F1BBDCB004FE7E1 /* Smart StockTests */,
+				ECA6182A1F1BBDCB004FE7E1 /* SmartStock */,
+				ECA618421F1BBDCB004FE7E1 /* SmartStockTests */,
 				ECA6184D1F1BBDCB004FE7E1 /* Smart StockUITests */,
 				ECA618291F1BBDCB004FE7E1 /* Products */,
 			);
@@ -89,33 +99,40 @@
 		ECA618291F1BBDCB004FE7E1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ECA618281F1BBDCB004FE7E1 /* Smart Stock.app */,
-				ECA6183F1F1BBDCB004FE7E1 /* Smart StockTests.xctest */,
-				ECA6184A1F1BBDCB004FE7E1 /* Smart StockUITests.xctest */,
+				ECA618281F1BBDCB004FE7E1 /* SmartStock.app */,
+				ECA6183F1F1BBDCB004FE7E1 /* SmartStockTests.xctest */,
+				ECA6184A1F1BBDCB004FE7E1 /* SmartStockUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ECA6182A1F1BBDCB004FE7E1 /* Smart Stock */ = {
+		ECA6182A1F1BBDCB004FE7E1 /* SmartStock */ = {
 			isa = PBXGroup;
 			children = (
+				ECA6185E1F1BC508004FE7E1 /* XHStockListTableViewCell.swift */,
 				ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */,
-				ECA6182D1F1BBDCB004FE7E1 /* ViewController.swift */,
 				ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */,
+				ECA618601F1BD0CD004FE7E1 /* XHStockListTableViewController.swift */,
+				ECA618621F2E3FCF004FE7E1 /* XHStockInfo.swift */,
+				ECA618641F2E427E004FE7E1 /* SP500StockSymbolList.swift */,
+				ECA618661F2E49FF004FE7E1 /* XHStockInfoDownloader.swift */,
 				ECA618351F1BBDCB004FE7E1 /* Assets.xcassets */,
 				ECA618371F1BBDCB004FE7E1 /* LaunchScreen.storyboard */,
 				ECA6183A1F1BBDCB004FE7E1 /* Info.plist */,
 				ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */,
 			);
+			name = SmartStock;
 			path = "Smart Stock";
 			sourceTree = "<group>";
 		};
-		ECA618421F1BBDCB004FE7E1 /* Smart StockTests */ = {
+		ECA618421F1BBDCB004FE7E1 /* SmartStockTests */ = {
 			isa = PBXGroup;
 			children = (
 				ECA618431F1BBDCB004FE7E1 /* Smart_StockTests.swift */,
+				ECA618681F2E569A004FE7E1 /* stockInfoFetcherTests.swift */,
 				ECA618451F1BBDCB004FE7E1 /* Info.plist */,
 			);
+			name = SmartStockTests;
 			path = "Smart StockTests";
 			sourceTree = "<group>";
 		};
@@ -131,9 +148,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ECA618271F1BBDCA004FE7E1 /* Smart Stock */ = {
+		ECA618271F1BBDCA004FE7E1 /* SmartStock */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECA618531F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "Smart Stock" */;
+			buildConfigurationList = ECA618531F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "SmartStock" */;
 			buildPhases = (
 				ECA618241F1BBDCA004FE7E1 /* Sources */,
 				ECA618251F1BBDCA004FE7E1 /* Frameworks */,
@@ -143,14 +160,14 @@
 			);
 			dependencies = (
 			);
-			name = "Smart Stock";
+			name = SmartStock;
 			productName = "Smart Stock";
-			productReference = ECA618281F1BBDCB004FE7E1 /* Smart Stock.app */;
+			productReference = ECA618281F1BBDCB004FE7E1 /* SmartStock.app */;
 			productType = "com.apple.product-type.application";
 		};
-		ECA6183E1F1BBDCB004FE7E1 /* Smart StockTests */ = {
+		ECA6183E1F1BBDCB004FE7E1 /* SmartStockTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECA618561F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "Smart StockTests" */;
+			buildConfigurationList = ECA618561F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "SmartStockTests" */;
 			buildPhases = (
 				ECA6183B1F1BBDCB004FE7E1 /* Sources */,
 				ECA6183C1F1BBDCB004FE7E1 /* Frameworks */,
@@ -161,14 +178,14 @@
 			dependencies = (
 				ECA618411F1BBDCB004FE7E1 /* PBXTargetDependency */,
 			);
-			name = "Smart StockTests";
+			name = SmartStockTests;
 			productName = "Smart StockTests";
-			productReference = ECA6183F1F1BBDCB004FE7E1 /* Smart StockTests.xctest */;
+			productReference = ECA6183F1F1BBDCB004FE7E1 /* SmartStockTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		ECA618491F1BBDCB004FE7E1 /* Smart StockUITests */ = {
+		ECA618491F1BBDCB004FE7E1 /* SmartStockUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECA618591F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "Smart StockUITests" */;
+			buildConfigurationList = ECA618591F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "SmartStockUITests" */;
 			buildPhases = (
 				ECA618461F1BBDCB004FE7E1 /* Sources */,
 				ECA618471F1BBDCB004FE7E1 /* Frameworks */,
@@ -179,9 +196,9 @@
 			dependencies = (
 				ECA6184C1F1BBDCB004FE7E1 /* PBXTargetDependency */,
 			);
-			name = "Smart StockUITests";
+			name = SmartStockUITests;
 			productName = "Smart StockUITests";
-			productReference = ECA6184A1F1BBDCB004FE7E1 /* Smart StockUITests.xctest */;
+			productReference = ECA6184A1F1BBDCB004FE7E1 /* SmartStockUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -210,7 +227,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ECA618231F1BBDCA004FE7E1 /* Build configuration list for PBXProject "Smart Stock" */;
+			buildConfigurationList = ECA618231F1BBDCA004FE7E1 /* Build configuration list for PBXProject "SmartStock" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -223,9 +240,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ECA618271F1BBDCA004FE7E1 /* Smart Stock */,
-				ECA6183E1F1BBDCB004FE7E1 /* Smart StockTests */,
-				ECA618491F1BBDCB004FE7E1 /* Smart StockUITests */,
+				ECA618271F1BBDCA004FE7E1 /* SmartStock */,
+				ECA6183E1F1BBDCB004FE7E1 /* SmartStockTests */,
+				ECA618491F1BBDCB004FE7E1 /* SmartStockUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -262,9 +279,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECA618631F2E3FCF004FE7E1 /* XHStockInfo.swift in Sources */,
+				ECA618611F1BD0CD004FE7E1 /* XHStockListTableViewController.swift in Sources */,
+				ECA6185F1F1BC508004FE7E1 /* XHStockListTableViewCell.swift in Sources */,
 				ECA618341F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld in Sources */,
-				ECA6182E1F1BBDCB004FE7E1 /* ViewController.swift in Sources */,
+				ECA618671F2E49FF004FE7E1 /* XHStockInfoDownloader.swift in Sources */,
 				ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */,
+				ECA618651F2E427E004FE7E1 /* SP500StockSymbolList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECA618691F2E569A004FE7E1 /* stockInfoFetcherTests.swift in Sources */,
 				ECA618441F1BBDCB004FE7E1 /* Smart_StockTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,12 +311,12 @@
 /* Begin PBXTargetDependency section */
 		ECA618411F1BBDCB004FE7E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ECA618271F1BBDCA004FE7E1 /* Smart Stock */;
+			target = ECA618271F1BBDCA004FE7E1 /* SmartStock */;
 			targetProxy = ECA618401F1BBDCB004FE7E1 /* PBXContainerItemProxy */;
 		};
 		ECA6184C1F1BBDCB004FE7E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ECA618271F1BBDCA004FE7E1 /* Smart Stock */;
+			target = ECA618271F1BBDCA004FE7E1 /* SmartStock */;
 			targetProxy = ECA6184B1F1BBDCB004FE7E1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -446,7 +468,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart Stock.app/Smart Stock";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStock.app/SmartStock";
 			};
 			name = Debug;
 		};
@@ -460,7 +482,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart Stock.app/Smart Stock";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStock.app/SmartStock";
 			};
 			name = Release;
 		};
@@ -493,7 +515,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ECA618231F1BBDCA004FE7E1 /* Build configuration list for PBXProject "Smart Stock" */ = {
+		ECA618231F1BBDCA004FE7E1 /* Build configuration list for PBXProject "SmartStock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA618511F1BBDCB004FE7E1 /* Debug */,
@@ -502,29 +524,32 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECA618531F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "Smart Stock" */ = {
+		ECA618531F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "SmartStock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA618541F1BBDCB004FE7E1 /* Debug */,
 				ECA618551F1BBDCB004FE7E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		ECA618561F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "Smart StockTests" */ = {
+		ECA618561F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "SmartStockTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA618571F1BBDCB004FE7E1 /* Debug */,
 				ECA618581F1BBDCB004FE7E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		ECA618591F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "Smart StockUITests" */ = {
+		ECA618591F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "SmartStockUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA6185A1F1BBDCB004FE7E1 /* Debug */,
 				ECA6185B1F1BBDCB004FE7E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

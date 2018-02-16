@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Smart Stock.xcodeproj">
+      location = "self:/Users/happywxh/Documents/projects/smart_stock/SmartStock.xcodeproj">
    </FileRef>
 </Workspace>
