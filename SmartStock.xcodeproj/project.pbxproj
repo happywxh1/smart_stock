@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		354886F82043A4A3002C2AAC /* StockDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354886F72043A4A3002C2AAC /* StockDetailViewController.swift */; };
 		ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */; };
 		ECA618311F1BBDCB004FE7E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */; };
 		ECA618341F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */; };
@@ -28,18 +29,19 @@
 			containerPortal = ECA618201F1BBDCA004FE7E1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = ECA618271F1BBDCA004FE7E1;
-			remoteInfo = "Smart Stock";
+			remoteInfo = "SmartStock";
 		};
 		ECA6184B1F1BBDCB004FE7E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ECA618201F1BBDCA004FE7E1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = ECA618271F1BBDCA004FE7E1;
-			remoteInfo = "Smart Stock";
+			remoteInfo = "SmartStock";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		354886F72043A4A3002C2AAC /* StockDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailViewController.swift; sourceTree = "<group>"; };
 		ECA618281F1BBDCB004FE7E1 /* SmartStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECA618301F1BBDCB004FE7E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -91,7 +93,7 @@
 			children = (
 				ECA6182A1F1BBDCB004FE7E1 /* SmartStock */,
 				ECA618421F1BBDCB004FE7E1 /* SmartStockTests */,
-				ECA6184D1F1BBDCB004FE7E1 /* Smart StockUITests */,
+				ECA6184D1F1BBDCB004FE7E1 /* SmartStockUITests */,
 				ECA618291F1BBDCB004FE7E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				ECA6185E1F1BC508004FE7E1 /* XHStockListTableViewCell.swift */,
+				354886F72043A4A3002C2AAC /* StockDetailViewController.swift */,
 				ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */,
 				ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */,
 				ECA618601F1BD0CD004FE7E1 /* XHStockListTableViewController.swift */,
@@ -121,8 +124,7 @@
 				ECA6183A1F1BBDCB004FE7E1 /* Info.plist */,
 				ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */,
 			);
-			name = SmartStock;
-			path = "Smart Stock";
+			path = SmartStock;
 			sourceTree = "<group>";
 		};
 		ECA618421F1BBDCB004FE7E1 /* SmartStockTests */ = {
@@ -132,17 +134,17 @@
 				ECA618681F2E569A004FE7E1 /* stockInfoFetcherTests.swift */,
 				ECA618451F1BBDCB004FE7E1 /* Info.plist */,
 			);
-			name = SmartStockTests;
-			path = "Smart StockTests";
+			path = SmartStockTests;
 			sourceTree = "<group>";
 		};
-		ECA6184D1F1BBDCB004FE7E1 /* Smart StockUITests */ = {
+		ECA6184D1F1BBDCB004FE7E1 /* SmartStockUITests */ = {
 			isa = PBXGroup;
 			children = (
 				ECA6184E1F1BBDCB004FE7E1 /* Smart_StockUITests.swift */,
 				ECA618501F1BBDCB004FE7E1 /* Info.plist */,
 			);
-			path = "Smart StockUITests";
+			name = "SmartStockUITests";
+			path = SmartStockUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,7 +163,7 @@
 			dependencies = (
 			);
 			name = SmartStock;
-			productName = "Smart Stock";
+			productName = "SmartStock";
 			productReference = ECA618281F1BBDCB004FE7E1 /* SmartStock.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -179,7 +181,7 @@
 				ECA618411F1BBDCB004FE7E1 /* PBXTargetDependency */,
 			);
 			name = SmartStockTests;
-			productName = "Smart StockTests";
+			productName = "SmartStockTests";
 			productReference = ECA6183F1F1BBDCB004FE7E1 /* SmartStockTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -197,7 +199,7 @@
 				ECA6184C1F1BBDCB004FE7E1 /* PBXTargetDependency */,
 			);
 			name = SmartStockUITests;
-			productName = "Smart StockUITests";
+			productName = "SmartStockUITests";
 			productReference = ECA6184A1F1BBDCB004FE7E1 /* SmartStockUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -279,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354886F82043A4A3002C2AAC /* StockDetailViewController.swift in Sources */,
 				ECA618631F2E3FCF004FE7E1 /* XHStockInfo.swift in Sources */,
 				ECA618611F1BD0CD004FE7E1 /* XHStockListTableViewController.swift in Sources */,
 				ECA6185F1F1BC508004FE7E1 /* XHStockListTableViewCell.swift in Sources */,
@@ -438,7 +441,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "Smart Stock/Info.plist";
+				INFOPLIST_FILE = "SmartStock/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-Stock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -450,7 +453,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "Smart Stock/Info.plist";
+				INFOPLIST_FILE = "SmartStock/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-Stock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -463,7 +466,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "Smart StockTests/Info.plist";
+				INFOPLIST_FILE = "SmartStockTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -477,7 +480,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "Smart StockTests/Info.plist";
+				INFOPLIST_FILE = "SmartStockTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -490,12 +493,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = "Smart StockUITests/Info.plist";
+				INFOPLIST_FILE = "SmartStockUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = "Smart Stock";
+				TEST_TARGET_NAME = "SmartStock";
 			};
 			name = Debug;
 		};
@@ -503,12 +506,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = "Smart StockUITests/Info.plist";
+				INFOPLIST_FILE = "SmartStockUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = "Smart Stock";
+				TEST_TARGET_NAME = "SmartStock";
 			};
 			name = Release;
 		};

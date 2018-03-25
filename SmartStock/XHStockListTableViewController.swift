@@ -11,7 +11,7 @@ import UIKit
 let tableViewCellReuseIdentifier = "stockCell"
 
 //todo: rename to view controller and put table view in separate file
-class XHStockListTableViewController: UIViewController,  UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
+class XHStockListTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
     var searchResults: [Double] = []
     var stockPrices: [stockPriceInfo] = []
     var stockSymbols = ["AAPL", "BABA", "FB", "AMAT"]
@@ -40,7 +40,6 @@ class XHStockListTableViewController: UIViewController,  UITableViewDelegate, UI
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(XHStockListTableViewCell.self, forCellReuseIdentifier: tableViewCellReuseIdentifier)
-        
         self.view.addSubview(tableView)
         
         if(stockSymbols.count > stockPrices.count){
@@ -131,6 +130,11 @@ class XHStockListTableViewController: UIViewController,  UITableViewDelegate, UI
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = StockDetailViewController()
+        self.navigationController?.present(detailVC, animated: true, completion: nil)
     }
 
     /*
