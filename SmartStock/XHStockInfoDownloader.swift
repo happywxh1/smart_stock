@@ -10,13 +10,19 @@ import UIKit
 
 class stockDailyPriceResult{
     var symbol: String?
+    var companyName: String = ""
     var dailyPrices: [Date: [String: Double]] = [:]
 }
 
-class stockPriceInfo{
+class stockCurrentQuoteInfo{
     var symbol: String?
-    var currentPrice:Double?
-    required init(symbol: String, price: Double?){
+    var currentPrice:Double
+    var companyName: String?
+    var todayHigh: Double?
+    var todayLow: Double?
+    var previousClose: Double?
+    var todayOpen: Double?
+    required init(symbol: String, price: Double!){
         self.symbol = symbol;
         self.currentPrice = price
     }
@@ -62,7 +68,7 @@ class XHStockInfoDownloader: NSObject {
         task.resume()
     }
     
-    class func fetchStocksCurrentPrices(stockSymbols:[String], completion:@escaping (([stockPriceInfo])) -> Void){
+    class func fetchStocksCurrentPrices_Deprecate(stockSymbols:[String], completion:@escaping (([stockCurrentQuoteInfo])) -> Void){
         let stockURL = URL(string: "https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=\(stockSymbols.joined(separator: ","))&apikey=\(apiKey)&datatype=json")
         
         let request = URLRequest(url: stockURL!)
@@ -77,15 +83,50 @@ class XHStockInfoDownloader: NSObject {
             }
             
             let json = try! JSONSerialization.jsonObject(with: data, options: [])
-            var prices = [stockPriceInfo]()
+            var prices = [stockCurrentQuoteInfo]()
             if let dict = json as? [String:Any], let results = dict["Stock Quotes"] as? [Any] {
                 for case let price as [String:Any] in results{
                     if let symbol = price["1. symbol"] as? String, let p = price["2. price"] as? String{
-                        prices.append(stockPriceInfo(symbol: symbol, price: Double(p)))
+                        prices.append(stockCurrentQuoteInfo(symbol: symbol, price: Double(p)))
                     }
                 }
             }
             completion(prices)
+        }
+        task.resume()
+    }
+    
+    class func fetchStocksCurrentPrices(stockSymbols:[String], completion:@escaping (([stockCurrentQuoteInfo])) -> Void){
+        let stockURL = URL(string: "https://api.iextrading.com/1.0/stock/market/batch?symbols=\(stockSymbols.joined(separator: ","))&&types=quote&range=1m&last=1")
+        
+        let request = URLRequest(url: stockURL!)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            
+            let json = try! JSONSerialization.jsonObject(with: data, options: [])
+            var stockQuotes = [stockCurrentQuoteInfo]()
+            if let dict = json as? [String:Any]{
+                for symb in stockSymbols{
+                    if let result = dict[symb] as? [String:Any], let quote = result["quote"] as?[String:Any]{
+                        let stockQuote = stockCurrentQuoteInfo(symbol: symb, price: quote["latestPrice"] as? Double)
+                        stockQuote.companyName = quote["companyName"] as? String
+                        stockQuote.todayOpen = quote["open"] as? Double
+                        stockQuote.previousClose = quote["open"] as! Double
+                        stockQuote.todayHigh = quote["high"] as! Double
+                        stockQuote.todayLow = quote["low"] as! Double
+                        stockQuotes.append(stockQuote)
+                    }
+                }
+                
+            }
+            completion(stockQuotes)
         }
         task.resume()
     }

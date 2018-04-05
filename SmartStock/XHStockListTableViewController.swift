@@ -13,7 +13,7 @@ let tableViewCellReuseIdentifier = "stockCell"
 //todo: rename to view controller and put table view in separate file
 class XHStockListTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
     var searchResults: [Double] = []
-    var stockPrices: [stockPriceInfo] = []
+    var stockCurrentQuotes: [stockCurrentQuoteInfo] = []
     var stockSymbols = ["AAPL", "BABA", "FB", "AMAT"]
     
     let searchController = UISearchController(searchResultsController: nil)
@@ -41,15 +41,13 @@ class XHStockListTableViewController: UIViewController, UITableViewDelegate, UIT
         tableView.delegate = self
         tableView.register(XHStockListTableViewCell.self, forCellReuseIdentifier: tableViewCellReuseIdentifier)
         self.view.addSubview(tableView)
-        
-        if(stockSymbols.count > stockPrices.count){
-            XHStockInfoDownloader.fetchStocksCurrentPrices(stockSymbols: stockSymbols, completion: { (fetchedPrices) in
-                DispatchQueue.main.async{
-                self.stockPrices = fetchedPrices
-                self.tableView.reloadData()
-                }
-            })
-        }
+
+        XHStockInfoDownloader.fetchStocksCurrentPrices(stockSymbols: stockSymbols, completion: { (fetchedPrices) in
+            DispatchQueue.main.async{
+            self.stockCurrentQuotes = fetchedPrices
+            self.tableView.reloadData()
+            }
+        })
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -72,7 +70,7 @@ class XHStockListTableViewController: UIViewController, UITableViewDelegate, UIT
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return stockPrices.count
+        return stockCurrentQuotes.count
     }
     
     func searchStockFianceWithSymbol(symbol: String) {
@@ -123,7 +121,7 @@ class XHStockListTableViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellReuseIdentifier, for: indexPath) as! XHStockListTableViewCell
-        cell.stockInfo = stockPrices[indexPath.row]
+        cell.stockInfo = stockCurrentQuotes[indexPath.row]
         return cell
     }
     
@@ -133,7 +131,7 @@ class XHStockListTableViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = StockDetailViewController()
+        let detailVC = StockDetailViewController.init(stockQuote:stockCurrentQuotes[indexPath.row])
         self.navigationController?.present(detailVC, animated: true, completion: nil)
     }
 

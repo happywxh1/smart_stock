@@ -12,15 +12,21 @@ class XHStockListTableViewCell: UITableViewCell {
     
     //Mark: Properties
     
-    var priceLabel:UILabel!
-    var stockName : UITextField!
+    var priceLabel: UILabel!
+    var priceChangeLabel: UILabel!
+    var stockSymbol : UITextField!
+    var companyName : UITextField!
+    var currentPriceChange: Double! //compare with yestery
     
-    var stockInfo: stockPriceInfo? {
+    var stockInfo: stockCurrentQuoteInfo? {
         didSet {
             if let s = stockInfo {
-                priceLabel.text = String(format: "%.00f",s.currentPrice!)
-                priceLabel.backgroundColor = UIColor.green
-                stockName.text = s.symbol
+                priceLabel.text = String(format: "%.00f",s.currentPrice)
+                stockSymbol.text = s.symbol
+                companyName.text = s.companyName
+                currentPriceChange = s.currentPrice - s.previousClose!
+                priceChangeLabel.text = String(format: "%.00f",self.currentPriceChange)
+                priceChangeLabel.backgroundColor = (self.currentPriceChange>0 ? .green : .red)
                 setNeedsLayout()
             }
         }
@@ -28,13 +34,21 @@ class XHStockListTableViewCell: UITableViewCell {
         
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        priceLabel = UILabel(frame:CGRect(x: self.frame.width-50, y: 0, width: 100, height: 40))
-        priceLabel.textAlignment = .right
+        priceLabel = UILabel(frame:CGRect(x: self.frame.width-50, y: 0, width: 100, height: 50))
+        priceLabel.textAlignment = .left
         contentView.addSubview(priceLabel)
         
-        stockName = UITextField(frame: CGRect(x:20, y: 0, width: 100, height: 50))
-        stockName.textAlignment = .left
-        contentView.addSubview(stockName)
+        priceChangeLabel = UILabel(frame:CGRect(x: self.frame.width, y: 0, width: 30, height: 50))
+        priceChangeLabel.textAlignment = .right
+        contentView.addSubview(priceChangeLabel)
+        
+        stockSymbol = UITextField(frame: CGRect(x:10, y: 0, width: 60, height: 40))
+        stockSymbol.textAlignment = .left
+        companyName = UITextField(frame: CGRect(x:10, y: 20, width: 200, height: 20))
+        companyName.textAlignment = .left
+        companyName.adjustsFontSizeToFitWidth = true
+        contentView.addSubview(stockSymbol)
+        contentView.addSubview(companyName)
     }
     
     required init?(coder aDecoder: NSCoder) {

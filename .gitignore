@@ -1,0 +1,14 @@
+*.xcworkspace
+*.xcodeproj
+
+UserInterfaceState.xcuserstate
+*.xcuserstate
+*.DS_Store
+xschememanagement.plist
+xcuserdata
+*.xcuserdatad
+UserInterfaceState.xcuserstate
+DerivedData/
+Addlive.package
+.idea/
+.LSOverride
