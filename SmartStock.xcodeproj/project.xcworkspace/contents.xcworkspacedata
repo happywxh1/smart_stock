@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/happywxh/Documents/projects/smart_stock/SmartStock.xcodeproj">
+      location = "group:../SnapKit">
+   </FileRef>
+   <FileRef
+      location = "group:../SnapKit">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

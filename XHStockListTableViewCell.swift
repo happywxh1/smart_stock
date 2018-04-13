@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class XHStockListTableViewCell: UITableViewCell {
     
@@ -34,21 +35,39 @@ class XHStockListTableViewCell: UITableViewCell {
         
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        priceLabel = UILabel(frame:CGRect(x: self.frame.width-50, y: 0, width: 100, height: 50))
-        priceLabel.textAlignment = .left
-        contentView.addSubview(priceLabel)
-        
-        priceChangeLabel = UILabel(frame:CGRect(x: self.frame.width, y: 0, width: 30, height: 50))
+        priceChangeLabel = UILabel()
         priceChangeLabel.textAlignment = .right
         contentView.addSubview(priceChangeLabel)
+        priceChangeLabel.snp.makeConstraints { (make)->Void in
+            make.width.equalTo(50)
+            make.right.equalTo(contentView)
+        };
+        priceLabel = UILabel()
+        priceLabel.textAlignment = .right
+        contentView.addSubview(priceLabel)
+        priceLabel.snp.makeConstraints { (make)->Void in
+            make.width.equalTo(50)
+            make.right.equalTo(priceChangeLabel).offset(-10)
+        };
         
-        stockSymbol = UITextField(frame: CGRect(x:10, y: 0, width: 60, height: 40))
+        stockSymbol = UITextField()
+        companyName = UITextField()
         stockSymbol.textAlignment = .left
-        companyName = UITextField(frame: CGRect(x:10, y: 20, width: 200, height: 20))
         companyName.textAlignment = .left
         companyName.adjustsFontSizeToFitWidth = true
         contentView.addSubview(stockSymbol)
         contentView.addSubview(companyName)
+        
+        stockSymbol.snp.makeConstraints { (make)->Void in
+            make.width.equalTo(20)
+            make.left.equalTo(contentView)
+            make.bottom.equalTo(contentView).offset(-30)
+        };
+        companyName.snp.makeConstraints { (make)->Void in
+            make.top.equalTo(stockSymbol).offset(5)
+            make.bottom.equalTo(contentView)
+            make.width.equalTo(60)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

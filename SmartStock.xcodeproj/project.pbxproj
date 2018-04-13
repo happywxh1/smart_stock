@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		354886F82043A4A3002C2AAC /* StockDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354886F72043A4A3002C2AAC /* StockDetailViewController.swift */; };
+		4084555273353EF77B4AFE88 /* Pods_SmartStock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A08879EAFA6FDD813EA /* Pods_SmartStock.framework */; };
 		ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */; };
 		ECA618311F1BBDCB004FE7E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */; };
 		ECA618341F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */; };
@@ -29,19 +30,22 @@
 			containerPortal = ECA618201F1BBDCA004FE7E1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = ECA618271F1BBDCA004FE7E1;
-			remoteInfo = "SmartStock";
+			remoteInfo = SmartStock;
 		};
 		ECA6184B1F1BBDCB004FE7E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ECA618201F1BBDCA004FE7E1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = ECA618271F1BBDCA004FE7E1;
-			remoteInfo = "SmartStock";
+			remoteInfo = SmartStock;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11C27447EA0C2C870F122EFE /* Pods-SmartStock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartStock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock.debug.xcconfig"; sourceTree = "<group>"; };
+		2FB31FE628D7E2724DD978AF /* Pods-SmartStock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartStock.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock.release.xcconfig"; sourceTree = "<group>"; };
 		354886F72043A4A3002C2AAC /* StockDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailViewController.swift; sourceTree = "<group>"; };
+		83ED0A08879EAFA6FDD813EA /* Pods_SmartStock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartStock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA618281F1BBDCB004FE7E1 /* SmartStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECA618301F1BBDCB004FE7E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4084555273353EF77B4AFE88 /* Pods_SmartStock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +93,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0EE327D06A8D771A3E0146C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				83ED0A08879EAFA6FDD813EA /* Pods_SmartStock.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		400023C4A46403B3DB929EE6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				11C27447EA0C2C870F122EFE /* Pods-SmartStock.debug.xcconfig */,
+				2FB31FE628D7E2724DD978AF /* Pods-SmartStock.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		ECA6181F1F1BBDCA004FE7E1 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +117,8 @@
 				ECA618421F1BBDCB004FE7E1 /* SmartStockTests */,
 				ECA6184D1F1BBDCB004FE7E1 /* SmartStockUITests */,
 				ECA618291F1BBDCB004FE7E1 /* Products */,
+				400023C4A46403B3DB929EE6 /* Pods */,
+				0EE327D06A8D771A3E0146C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,7 +167,6 @@
 				ECA6184E1F1BBDCB004FE7E1 /* Smart_StockUITests.swift */,
 				ECA618501F1BBDCB004FE7E1 /* Info.plist */,
 			);
-			name = "SmartStockUITests";
 			path = SmartStockUITests;
 			sourceTree = "<group>";
 		};
@@ -154,16 +177,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ECA618531F1BBDCB004FE7E1 /* Build configuration list for PBXNativeTarget "SmartStock" */;
 			buildPhases = (
+				65D3723233D83AB0212E0DD6 /* [CP] Check Pods Manifest.lock */,
 				ECA618241F1BBDCA004FE7E1 /* Sources */,
 				ECA618251F1BBDCA004FE7E1 /* Frameworks */,
 				ECA618261F1BBDCA004FE7E1 /* Resources */,
+				65C4FEEA6ACD045A90784C7A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = SmartStock;
-			productName = "SmartStock";
+			productName = SmartStock;
 			productReference = ECA618281F1BBDCB004FE7E1 /* SmartStock.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -181,7 +206,7 @@
 				ECA618411F1BBDCB004FE7E1 /* PBXTargetDependency */,
 			);
 			name = SmartStockTests;
-			productName = "SmartStockTests";
+			productName = SmartStockTests;
 			productReference = ECA6183F1F1BBDCB004FE7E1 /* SmartStockTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -199,7 +224,7 @@
 				ECA6184C1F1BBDCB004FE7E1 /* PBXTargetDependency */,
 			);
 			name = SmartStockUITests;
-			productName = "SmartStockUITests";
+			productName = SmartStockUITests;
 			productReference = ECA6184A1F1BBDCB004FE7E1 /* SmartStockUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -275,6 +300,44 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		65C4FEEA6ACD045A90784C7A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock-frameworks.sh\"\n";
+		};
+		65D3723233D83AB0212E0DD6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SmartStock-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ECA618241F1BBDCA004FE7E1 /* Sources */ = {
@@ -439,9 +502,10 @@
 		};
 		ECA618541F1BBDCB004FE7E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11C27447EA0C2C870F122EFE /* Pods-SmartStock.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "SmartStock/Info.plist";
+				INFOPLIST_FILE = SmartStock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-Stock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -451,9 +515,10 @@
 		};
 		ECA618551F1BBDCB004FE7E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FB31FE628D7E2724DD978AF /* Pods-SmartStock.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "SmartStock/Info.plist";
+				INFOPLIST_FILE = SmartStock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-Stock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -466,7 +531,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "SmartStockTests/Info.plist";
+				INFOPLIST_FILE = SmartStockTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -480,7 +545,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "SmartStockTests/Info.plist";
+				INFOPLIST_FILE = SmartStockTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -493,12 +558,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = "SmartStockUITests/Info.plist";
+				INFOPLIST_FILE = SmartStockUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = "SmartStock";
+				TEST_TARGET_NAME = SmartStock;
 			};
 			name = Debug;
 		};
@@ -506,12 +571,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = "SmartStockUITests/Info.plist";
+				INFOPLIST_FILE = SmartStockUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-StockUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = "SmartStock";
+				TEST_TARGET_NAME = SmartStock;
 			};
 			name = Release;
 		};
