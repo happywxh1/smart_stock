@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		354886F82043A4A3002C2AAC /* StockDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354886F72043A4A3002C2AAC /* StockDetailViewController.swift */; };
 		4084555273353EF77B4AFE88 /* Pods_SmartStock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A08879EAFA6FDD813EA /* Pods_SmartStock.framework */; };
+		EC39A69D20EED85D000E1D5B /* StockFinancials.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC39A69B20EED85D000E1D5B /* StockFinancials.xcdatamodeld */; };
+		EC39A6A320EF02E1000E1D5B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC39A6A220EF02E1000E1D5B /* CoreDataStack.swift */; };
 		ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */; };
 		ECA618311F1BBDCB004FE7E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */; };
 		ECA618341F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */; };
@@ -46,6 +48,8 @@
 		2FB31FE628D7E2724DD978AF /* Pods-SmartStock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartStock.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock.release.xcconfig"; sourceTree = "<group>"; };
 		354886F72043A4A3002C2AAC /* StockDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailViewController.swift; sourceTree = "<group>"; };
 		83ED0A08879EAFA6FDD813EA /* Pods_SmartStock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartStock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC39A69C20EED85D000E1D5B /* StockFinancials.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StockFinancials.xcdatamodel; sourceTree = "<group>"; };
+		EC39A6A220EF02E1000E1D5B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		ECA618281F1BBDCB004FE7E1 /* SmartStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECA618301F1BBDCB004FE7E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 		ECA6181F1F1BBDCA004FE7E1 = {
 			isa = PBXGroup;
 			children = (
+				EC39A69B20EED85D000E1D5B /* StockFinancials.xcdatamodeld */,
 				ECA6182A1F1BBDCB004FE7E1 /* SmartStock */,
 				ECA618421F1BBDCB004FE7E1 /* SmartStockTests */,
 				ECA6184D1F1BBDCB004FE7E1 /* SmartStockUITests */,
@@ -138,6 +143,7 @@
 				ECA6185E1F1BC508004FE7E1 /* XHStockListTableViewCell.swift */,
 				354886F72043A4A3002C2AAC /* StockDetailViewController.swift */,
 				ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */,
+				EC39A6A220EF02E1000E1D5B /* CoreDataStack.swift */,
 				ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */,
 				ECA618601F1BD0CD004FE7E1 /* XHStockListTableViewController.swift */,
 				ECA618621F2E3FCF004FE7E1 /* XHStockInfo.swift */,
@@ -145,8 +151,8 @@
 				ECA618661F2E49FF004FE7E1 /* XHStockInfoDownloader.swift */,
 				ECA618351F1BBDCB004FE7E1 /* Assets.xcassets */,
 				ECA618371F1BBDCB004FE7E1 /* LaunchScreen.storyboard */,
-				ECA6183A1F1BBDCB004FE7E1 /* Info.plist */,
 				ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */,
+				ECA6183A1F1BBDCB004FE7E1 /* Info.plist */,
 			);
 			path = SmartStock;
 			sourceTree = "<group>";
@@ -309,10 +315,16 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,8 +361,10 @@
 				ECA618611F1BD0CD004FE7E1 /* XHStockListTableViewController.swift in Sources */,
 				ECA6185F1F1BC508004FE7E1 /* XHStockListTableViewCell.swift in Sources */,
 				ECA618341F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld in Sources */,
+				EC39A6A320EF02E1000E1D5B /* CoreDataStack.swift in Sources */,
 				ECA618671F2E49FF004FE7E1 /* XHStockInfoDownloader.swift in Sources */,
 				ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */,
+				EC39A69D20EED85D000E1D5B /* StockFinancials.xcdatamodeld in Sources */,
 				ECA618651F2E427E004FE7E1 /* SP500StockSymbolList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -622,6 +636,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		EC39A69B20EED85D000E1D5B /* StockFinancials.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EC39A69C20EED85D000E1D5B /* StockFinancials.xcdatamodel */,
+			);
+			currentVersion = EC39A69C20EED85D000E1D5B /* StockFinancials.xcdatamodel */;
+			path = StockFinancials.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		ECA618321F1BBDCB004FE7E1 /* Smart_Stock.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

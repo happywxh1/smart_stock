@@ -15,8 +15,8 @@ class XHStockListTableViewCell: UITableViewCell {
     
     var priceLabel: UILabel!
     var priceChangeLabel: UILabel!
-    var stockSymbol : UITextField!
-    var companyName : UITextField!
+    var stockSymbol : UILabel!
+    var companyName : UILabel!
     var currentPriceChange: Double! //compare with yestery
     
     var stockInfo: stockCurrentQuoteInfo? {
@@ -39,19 +39,18 @@ class XHStockListTableViewCell: UITableViewCell {
         priceChangeLabel.textAlignment = .right
         contentView.addSubview(priceChangeLabel)
         priceChangeLabel.snp.makeConstraints { (make)->Void in
-            make.width.equalTo(50)
+            make.width.equalTo(30)
             make.right.equalTo(contentView)
         };
         priceLabel = UILabel()
         priceLabel.textAlignment = .right
         contentView.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { (make)->Void in
-            make.width.equalTo(50)
-            make.right.equalTo(priceChangeLabel).offset(-10)
+            make.right.equalTo(priceChangeLabel.snp.left).offset(-10)
         };
         
-        stockSymbol = UITextField()
-        companyName = UITextField()
+        stockSymbol = UILabel()
+        companyName = UILabel()
         stockSymbol.textAlignment = .left
         companyName.textAlignment = .left
         companyName.adjustsFontSizeToFitWidth = true
@@ -59,14 +58,13 @@ class XHStockListTableViewCell: UITableViewCell {
         contentView.addSubview(companyName)
         
         stockSymbol.snp.makeConstraints { (make)->Void in
-            make.width.equalTo(20)
+            make.top.equalTo(contentView).offset(5)
             make.left.equalTo(contentView)
-            make.bottom.equalTo(contentView).offset(-30)
+            make.bottom.equalTo(contentView).offset(-20)
         };
         companyName.snp.makeConstraints { (make)->Void in
             make.top.equalTo(stockSymbol).offset(5)
             make.bottom.equalTo(contentView)
-            make.width.equalTo(60)
         }
     }
     

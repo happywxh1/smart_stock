@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="StockFinancialHistory" representedClassName="StockFinancialHistory" syncable="YES" codeGenerationType="class">
+        <attribute name="freeCashFlow" optional="YES" attributeType="Transformable" customClassName="[Int:Double]" syncable="YES"/>
+        <attribute name="lastUpdateTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="netIncome" optional="YES" attributeType="Transformable" customClassName="[Int:Double]" syncable="YES"/>
+        <attribute name="revenue" optional="YES" attributeType="Transformable" customClassName="[Int:Double]" syncable="YES"/>
+        <attribute name="symbol" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="StockFinancialHistory" positionX="-63" positionY="-18" width="128" height="120"/>
+    </elements>
+</model>
