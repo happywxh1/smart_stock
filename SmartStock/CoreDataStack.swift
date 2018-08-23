@@ -10,8 +10,6 @@ import CoreData
 
 class CoreDataStack: NSObject {
     static let sharedInstance = CoreDataStack()
-    private override init() {}
-    
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -21,7 +19,7 @@ class CoreDataStack: NSObject {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentContainer(name: "Smart_Stock")
+        let container = NSPersistentContainer(name: "StockFinancials")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -58,14 +56,27 @@ class CoreDataStack: NSObject {
     }
     
     // MARK: - Helper
-    func saveStockFinancialHistoryEntityFrom(symbol:String, dictionary: [String: [Int:Double]]){
+    func saveStockFinancialHistoryEntityFrom(symbol:String, dictionary: [Int: [String:Double]]){
         let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
         let financialEntity = NSEntityDescription.insertNewObject(forEntityName: "StockFinancialHistory", into: context) as! StockFinancialHistory
         financialEntity.symbol = symbol
         financialEntity.lastUpdateTime = Date() as NSDate
-        financialEntity.freeCashFlow = dictionary[StockFinancialParams.kStockFreeCashFlow as! String]
-        financialEntity.revenue = dictionary[StockFinancialParams.kStockRevenue as! String]
-        financialEntity.netIncome = dictionary[StockFinancialParams.kStockNetIncome as! String]
+        
+        for (year, values) in dictionary {
+            let yearlyData = NSEntityDescription.insertNewObject(forEntityName: "StockYearlyData", into: context) as! StockYearlyData
+            yearlyData.year = Int16(year)
+            yearlyData.freeCashFlow = values[StockFinancialParams.kStockFreeCashFlow.description()]!
+            yearlyData.revenue = values[StockFinancialParams.kStockRevenue.description()]!
+            yearlyData.netIncome = values[StockFinancialParams.kStockNetIncome.description()]!
+            yearlyData.grossMargin = values[StockFinancialParams.kStockGrossMargin.description()]!
+            yearlyData.earningPerShare = values[StockFinancialParams.kStockEarningPerShare.description()]!
+            yearlyData.owner = financialEntity
+            do {
+                try context.save()
+            } catch let error as NSError {
+                print("Could not save stock yearly data. \(error), \(error.userInfo)")
+            }
+        }
 
         do {
             try context.save()
@@ -76,10 +87,10 @@ class CoreDataStack: NSObject {
     
     func fetchFinancialHistoryOfStock(symbol:String) -> StockFinancialHistory?{
         let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
+        let fetchRequest : NSFetchRequest<StockFinancialHistory> = StockFinancialHistory.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "symbol == %@", symbol)
         do {
-            let fetchRequest : NSFetchRequest<StockFinancialHistory> = StockFinancialHistory.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "symbol == %@", symbol)
-            let fetchedResults = try context.fetch(fetchRequest) as! [StockFinancialHistory]
+            let fetchedResults = try context.fetch(fetchRequest)
             if fetchedResults.count > 0 {
                 return fetchedResults.first
             }

@@ -2,7 +2,7 @@
 //  StockFinancialHistory+CoreDataClass.swift
 //  
 //
-//  Created by Xiaohong Wang on 7/5/18.
+//  Created by Xiaohong Wang on 7/27/18.
 //
 //
 
@@ -12,4 +12,9 @@ import CoreData
 @objc(StockFinancialHistory)
 public class StockFinancialHistory: NSManagedObject {
 
+}
+
+@objc(StockYearlyData)
+public class StockYearlyData: NSManagedObject {
+    
 }

@@ -8,17 +8,6 @@
 
 import UIKit
 
-enum StockFinancialParams:String{
-     case kStockEarningPerShare = "Earnings Per Share"
-     case kStockRevenue = "Revenue"
-     case kStockGrossMargin = "Gross Margin"
-     case kStockNetIncome = "Net Income"
-     case kStockFreeCashFlow = "Free Cash Flow"
-     case kStockNumberOfShares = "Shares"
-    
-     static let allFinancialParams = StockFinancialParams.kStockEarningPerShare.rawValue...StockFinancialParams.kStockNumberOfShares.rawValue
-}
-
 struct StockFinancialCurrency {
     static let kStockCurrencyUSD = "USD"
     static let kStockCurrencyRMB = "RMB"
@@ -35,10 +24,18 @@ class stockCurrentQuoteInfo{
     var symbol: String?
     var currentPrice:Double
     var companyName: String?
-    var todayHigh: Double?
-    var todayLow: Double?
-    var previousClose: Double?
-    var todayOpen: Double?
+    var todayHigh: Double!
+    var todayLow: Double!
+    var previousClose: Double!
+    var todayOpen: Double!
+    var peRatio: Double!
+    var week52High: Double!
+    var week52Low: Double!
+    var latestEPS: Double!
+    var marketCap: Double!
+    var dividend: Double!
+    var dividendRate: Double! //for the percentage
+    
     required init(symbol: String, price: Double!){
         self.symbol = symbol;
         self.currentPrice = price
@@ -53,11 +50,19 @@ enum chartType{
 }
 
 class XHStockInfoDownloader: NSObject {
-    //to fetch stock information from yahoo finance API
-    static let apiKey = "UAI3PPF7GSHSOMW5"
-    static let baseURL = "https://api.iextrading.com/1.0/"
-    static let financialParams = setupRequiredParams()
+    //to fetch stock information from finance API
+    let apiKey = "UAI3PPF7GSHSOMW5"
+    let baseURL = "https://api.iextrading.com/1.0/"
+    var financialParams: Array<String>?
+    let performQueue = DispatchQueue(label: "stockInfoDownloader", attributes: .concurrent)
+    static let sharedInstance = XHStockInfoDownloader()
     
+    override init() {
+        super.init()
+        self.financialParams = StockFinancialParams.allFinancialParams()
+    }
+    
+    /*
     class func fetchStockHistoryPrices_Deprecate(stockSymbol:String, completion:@escaping ((stockDailyPriceResult)) -> Void){
         let stockURL = URL(string: "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=\(stockSymbol)&apikey=\(apiKey)&datatype=json")
         
@@ -121,148 +126,151 @@ class XHStockInfoDownloader: NSObject {
         }
         task.resume()
     }
-    
-    class func fetchStocksCurrentPrices(stockSymbols:[String], completion:@escaping (([stockCurrentQuoteInfo])) -> Void){
-        let stockURL = URL(string: (baseURL+"stock/market/batch?symbols=\(stockSymbols.joined(separator: ","))&&types=quote&range=1m&last=1"))
-        
-        let request = URLRequest(url: stockURL!)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
+    */
+    func fetchStocksCurrentPrices(stockSymbols:[String], completion:@escaping (([stockCurrentQuoteInfo])) -> Void){
+        performQueue.async {
+            let stockURL = URL(string: (self.baseURL+"stock/market/batch?symbols=\(stockSymbols.joined(separator: ","))&&types=quote,stats&range=1m&last=1"))
             
-            let json = try! JSONSerialization.jsonObject(with: data, options: [])
-            var stockQuotes = [stockCurrentQuoteInfo]()
-            if let dict = json as? [String:Any]{
-                for symb in stockSymbols{
-                    if let result = dict[symb] as? [String:Any], let quote = result["quote"] as?[String:Any]{
-                        let stockQuote = stockCurrentQuoteInfo(symbol: symb, price: quote["latestPrice"] as? Double)
-                        stockQuote.companyName = quote["companyName"] as? String
-                        stockQuote.todayOpen = quote["open"] as? Double
-                        stockQuote.previousClose = quote["open"] as? Double
-                        stockQuote.todayHigh = quote["high"] as? Double
-                        stockQuote.todayLow = quote["low"] as? Double
-                        stockQuotes.append(stockQuote)
-                    }
+            let request = URLRequest(url: stockURL!)
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
                 }
                 
+                let json = try! JSONSerialization.jsonObject(with: data, options: [])
+                var stockQuotes = [stockCurrentQuoteInfo]()
+                if let dict = json as? [String:Any]{
+                    for symb in stockSymbols{
+                        if let result = dict[symb] as? [String:Any], let quote = result["quote"] as?[String:Any]{
+                            let stockQuote = stockCurrentQuoteInfo(symbol: symb, price: quote["latestPrice"] as? Double)
+                            stockQuote.companyName = quote["companyName"] as? String
+                            stockQuote.todayOpen = quote["open"] as! Double
+                            stockQuote.previousClose = quote["open"] as! Double
+                            stockQuote.todayHigh = quote["high"] as! Double
+                            stockQuote.todayLow = quote["low"] as! Double
+                            stockQuote.week52Low = quote["week52Low"] as! Double
+                            stockQuote.week52High = quote["week52High"] as! Double
+                            stockQuote.peRatio = quote["peRatio"] as! Double
+                            stockQuote.marketCap = quote["marketCap"] as! Double
+                            stockQuotes.append(stockQuote)
+                        }
+                    }
+                    
+                }
+                completion(stockQuotes)
             }
-            completion(stockQuotes)
+            task.resume()
         }
-        task.resume()
     }
     
-    class func fetchStocksChartData(stockSymbol:String, type:chartType, completion:@escaping ([String:Double]) -> Void){
-        var chartAPI = "stock/" + stockSymbol
-        var timeKey:String = "data"
-        var priceKey:String = "open"
-        switch type {
-        case .OneDay:
-            chartAPI += "/chart/1d"
-            timeKey = "minute"
-            priceKey = "average"
-            break
-        case .FiveDays:
-            chartAPI += "/chart/5d"
-            break
-        case .OneMonth:
-            chartAPI += "/chart/1m"
-            break
-        case .OneYear:
-            chartAPI += "/chart/1y"
-            break;
-        }
-        let stockURL = URL(string: baseURL+chartAPI)
-        
-        let request = URLRequest(url: stockURL!)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
+    func fetchStocksChartData(stockSymbol:String, type:chartType, completion:@escaping ([String:Double]) -> Void){
+        performQueue.async {
+            var chartAPI = "stock/" + stockSymbol
+            var timeKey:String = "data"
+            var priceKey:String = "open"
+            switch type {
+            case .OneDay:
+                chartAPI += "/chart/1d"
+                timeKey = "minute"
+                priceKey = "average"
+                break
+            case .FiveDays:
+                chartAPI += "/chart/5d"
+                break
+            case .OneMonth:
+                chartAPI += "/chart/1m"
+                break
+            case .OneYear:
+                chartAPI += "/chart/1y"
+                break;
             }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
+            let stockURL = URL(string: self.baseURL+chartAPI)
             
-            let json = try! JSONSerialization.jsonObject(with: data, options: [])
-            var chartData = [String:Double]()
-            if let arrays = json as? [[String:Any]]{
-                for dict in arrays {
-                    if let key = dict[timeKey] as? String, let price = dict[priceKey] as? Double {
-                        chartData[key] = price
+            let request = URLRequest(url: stockURL!)
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                
+                let json = try! JSONSerialization.jsonObject(with: data, options: [])
+                var chartData = [String:Double]()
+                if let arrays = json as? [[String:Any]]{
+                    for dict in arrays {
+                        if let key = dict[timeKey] as? String, let price = dict[priceKey] as? Double {
+                            chartData[key] = price
+                        }
                     }
                 }
+                completion(chartData)
             }
-            completion(chartData)
+            task.resume()
         }
-        task.resume()
     }
     
-    class func fetchStocksFinancialData(stockSymbol:String, type:chartType, completion:@escaping ([String:[Int:Double]]) -> Void){
-        var chartAPI = "http://financials.morningstar.com/ajax/exportKR2CSV.html?t=" + stockSymbol
-        let stockURL = URL(string: chartAPI)
-        let keySet = financialParams
-        
-        let file = try! String(contentsOf: stockURL!, encoding: String.Encoding.utf8)
-        let keyStatData = cleanupCsvData(data: file)
-        let rows = keyStatData.components(separatedBy: "\n")
-        var result = [String:[Int:Double]]()
-        for row in rows {
-            var columns = row.components(separatedBy: ", ")
-            if(columns.count < 3) {
-                columns = row.components(separatedBy: ",")
-            }
-            if(columns.count < 2) {
-                //if the company hasn't became public for 4 fours then skip
-                continue;
-            }
-            let key = financialKey(component: columns[0], keySet: keySet)
-            if(key == nil || result[key!] != nil){
-                // the key already fetched once
-                continue
-            }
-            let date = Date()
-            let calendar = Calendar.current
-            var year = calendar.component(.year, from: date)
-            var oneKeyResult = [Int:Double]()
-            var index = columns.count - 1
-            var factor = 1.0
-            if columns[0].contains("%"){
-                factor = 0.01
-            }
-            while oneKeyResult.count < 5 {
-                if(index<0){
-                    oneKeyResult[year] = -1
+    func fetchStocksFinancialData(stockSymbol:String, completion:@escaping ([Int:[String:Double]]) -> Void){
+        performQueue.async {
+            let chartAPI = "http://financials.morningstar.com/ajax/exportKR2CSV.html?t=" + stockSymbol
+            let stockURL = URL(string: chartAPI)
+            let keySet = self.financialParams
+            
+            let file = try! String(contentsOf: stockURL!, encoding: String.Encoding.utf8)
+            let keyStatData = self.cleanupCsvData(data: file)
+            let rows = keyStatData.components(separatedBy: "\n")
+            var result = [String:[Int:Double]]()    // {params:{year: value}}
+            
+            for row in rows {
+                var columns = self.parseCSVRows(row: row)
+                if(columns.count < 2) {
+                    //if the company hasn't became public for 4 fours then skip
+                    continue;
+                }
+                let key = self.financialKey(component: columns[0], keySet: keySet!)
+                if(key == nil || result[key!] != nil){
+                    // the key already fetched once
                     continue
                 }
-                let value = columns[index].replacingOccurrences(of: ",", with: "").replacingOccurrences(of: " ", with: "")
-                oneKeyResult[year] = Double(value)! * factor
-                year -= 1
-                index -= 1
+                let date = Date()
+                let calendar = Calendar.current
+                var year = calendar.component(.year, from: date)
+                var oneKeyResult = [Int:Double]()
+                var index = columns.count - 1
+                var factor = 1.0
+                if columns[0].contains("%"){
+                    factor = 0.01
+                }
+                while oneKeyResult.count < 5 {
+                    if(index<0){
+                        oneKeyResult[year] = -1
+                        continue
+                    }
+                    let value = columns[index].replacingOccurrences(of: ",", with: "").replacingOccurrences(of: " ", with: "")
+                    if(value.count > 0){
+                        oneKeyResult[year] = Double(value)! * factor
+                    } else{
+                        oneKeyResult[year] = -1
+                    }
+                    year -= 1
+                    index -= 1
+                }
+                result[key!] = oneKeyResult
             }
-            result[key!] = oneKeyResult
+            completion(self.reOrganizeResult(temp: result))
         }
-        completion(result)
     }
     
    // MARK: private methods
-    private class func setupRequiredParams()->[String]{
-        let strucParams = StockFinancialParams.allFinancialParams
-        let mirror_obj = Mirror(reflecting: strucParams)
-        var params = Array<String>()
-        for (_, value) in mirror_obj.children {
-            params.append(value as! String)
-        }
-        return params
-    }
     
-    private class func cleanupCsvData(data:String) -> String{
+    private func cleanupCsvData(data:String) -> String{
         var cleanFile = data
         cleanFile = cleanFile.replacingOccurrences(of: "\r", with: "\n")
         cleanFile = cleanFile.replacingOccurrences(of: "\n\n", with: "\n")
@@ -271,12 +279,41 @@ class XHStockInfoDownloader: NSObject {
         return cleanFile
     }
     
-    private class func financialKey(component: String, keySet: [String]) -> String? {
+    private func financialKey(component: String, keySet: [String]) -> String? {
         for s in keySet{
             if component.range(of: s) != nil || s.range(of: component) != nil {
                 return s
             }
         }
         return nil
+    }
+    
+    // MARK: private methods
+    func parseCSVRows(row:String) -> [String]{
+        var columns = [String]()
+        let primColumns = row.components(separatedBy: ", ")
+        for s in primColumns {
+            let num = s.filter { $0 == "," }.count
+            if(num > 1){
+                let split = s.components(separatedBy: ",")
+                columns += split
+            } else{
+                columns.append(s)
+            }
+        }
+        return columns
+    }
+    
+    func reOrganizeResult(temp:[String:[Int:Double]]) -> [Int:[String:Double]]{
+        var result = [Int:[String:Double]]()
+        for (key, keyResult) in temp{
+            for(year, value) in keyResult {
+                if(result[year] == nil){
+                    result[year] = [String:Double]()
+                }
+                result[year]![key] = value
+            }
+        }
+        return result
     }
 }

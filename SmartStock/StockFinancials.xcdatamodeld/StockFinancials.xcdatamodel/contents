@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="StockFinancialHistory" representedClassName="StockFinancialHistory" syncable="YES">
+        <attribute name="lastUpdateTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="symbol" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="stockYearlyData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StockYearlyData" inverseName="owner" inverseEntity="StockYearlyData" syncable="YES"/>
+    </entity>
+    <entity name="StockYearlyData" representedClassName="StockYearlyData" syncable="YES">
+        <attribute name="earningPerShare" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="freeCashFlow" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="grossMargin" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="netIncome" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="revenue" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="symbol" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StockFinancialHistory" inverseName="stockYearlyData" inverseEntity="StockFinancialHistory" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="StockFinancialHistory" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="StockYearlyData" positionX="333" positionY="36" width="128" height="163"/>
+    </elements>
+</model>

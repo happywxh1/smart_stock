@@ -9,7 +9,12 @@
 import UIKit
 import SnapKit
 
-class XHStockListTableViewCell: UITableViewCell {
+// define size
+let cellHeight = 40.0
+let priceChangeLabelHeight = 30
+let priceChangeLabelWidth = 50
+
+class XHStockListCollectionViewCell: UICollectionViewCell {
     
     //Mark: Properties
     
@@ -22,31 +27,35 @@ class XHStockListTableViewCell: UITableViewCell {
     var stockInfo: stockCurrentQuoteInfo? {
         didSet {
             if let s = stockInfo {
-                priceLabel.text = String(format: "%.00f",s.currentPrice)
+                priceLabel.text = String(format: "%.02f",s.currentPrice)
                 stockSymbol.text = s.symbol
                 companyName.text = s.companyName
                 currentPriceChange = s.currentPrice - s.previousClose!
-                priceChangeLabel.text = String(format: "%.00f",self.currentPriceChange)
+                priceChangeLabel.text = String(format: "%.02f",self.currentPriceChange)
                 priceChangeLabel.backgroundColor = (self.currentPriceChange>0 ? .green : .red)
                 setNeedsLayout()
             }
         }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
         priceChangeLabel = UILabel()
         priceChangeLabel.textAlignment = .right
         contentView.addSubview(priceChangeLabel)
         priceChangeLabel.snp.makeConstraints { (make)->Void in
-            make.width.equalTo(30)
-            make.right.equalTo(contentView)
+            make.width.equalTo(priceChangeLabelWidth)
+            make.height.equalTo(priceChangeLabelHeight)
+            make.centerY.equalTo(contentView.snp.centerY)
+            make.right.equalTo(contentView).offset(-10)
         };
         priceLabel = UILabel()
         priceLabel.textAlignment = .right
         contentView.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { (make)->Void in
             make.right.equalTo(priceChangeLabel.snp.left).offset(-10)
+            make.top.bottom.equalTo(contentView)
         };
         
         stockSymbol = UILabel()
@@ -60,10 +69,10 @@ class XHStockListTableViewCell: UITableViewCell {
         stockSymbol.snp.makeConstraints { (make)->Void in
             make.top.equalTo(contentView).offset(5)
             make.left.equalTo(contentView)
-            make.bottom.equalTo(contentView).offset(-20)
+            make.height.equalTo(20)
         };
         companyName.snp.makeConstraints { (make)->Void in
-            make.top.equalTo(stockSymbol).offset(5)
+            make.top.equalTo(stockSymbol).offset(10)
             make.bottom.equalTo(contentView)
         }
     }
@@ -76,15 +85,15 @@ class XHStockListTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.contentView.layoutIfNeeded()
     }
+    
+    class func cellSize() -> CGSize {
+        let screenSize = UIScreen.main.bounds
+        return CGSize(width: screenSize.width, height: CGFloat(cellHeight))
+    }
+    
 }

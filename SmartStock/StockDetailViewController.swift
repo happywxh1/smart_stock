@@ -9,13 +9,14 @@
 import UIKit
 import Charts
 
-let navigationBarHight = 60
+let navigationBarHight = 100
 
-class StockDetailViewController: UIViewController {
+class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBarPositioningDelegate {
     var stockCurrentQuote:stockCurrentQuoteInfo
     var plotType = chartType.OneDay
     var chartView: LineChartView!
     var xTime = [String]()
+    let networkManager = XHStockInfoDownloader.sharedInstance
     
     init(stockQuote:stockCurrentQuoteInfo) {
         self.stockCurrentQuote = stockQuote
@@ -31,13 +32,15 @@ class StockDetailViewController: UIViewController {
         super.viewWillAppear(true)
         
         weak var weakSelf = self
+        networkManager.fetchStocksChartData(stockSymbol: stockCurrentQuote.symbol!, type:plotType) { (chartData) in
+            DispatchQueue.main.async {
+                weakSelf!.plotChartGraph(data: chartData)
+            }
+        }
         /*
-        XHStockInfoDownloader.fetchStocksChartData(stockSymbol: stockCurrentQuote.symbol!, type:plotType) { (chartData) in
-            weakSelf!.plotChartGraph(data: chartData)
-        }*/
         XHStockInfoDownloader.fetchStocksFinancialData(stockSymbol: stockCurrentQuote.symbol!, type:plotType) {(chartData) in
             print(chartData)
-        }
+        } */
     }
     
     override func viewDidLoad() {
@@ -70,11 +73,16 @@ class StockDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
+    }
+    
     func setNavigationBar() {
         let screenSize: CGRect = UIScreen.main.bounds
-        let navBarFrame = CGRect.init(x: 0, y: 0, width: Int(screenSize.width), height: navigationBarHight)
+        let navBarFrame = CGRect.init(x: 0, y: 20, width: Int(screenSize.width), height: navigationBarHight)
         let navBar = UINavigationBar(frame:navBarFrame)
-        let navItem = UINavigationItem(title:"")
+        navBar.delegate = self
+        let navItem = UINavigationItem(title:stockCurrentQuote.companyName!)
         let backButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: #selector(back))
         navItem.leftBarButtonItem = backButton
         
@@ -82,7 +90,7 @@ class StockDetailViewController: UIViewController {
         self.view.addSubview(navBar)
     }
     
-    func back(){
+    @objc func back(){
         self.dismiss(animated: true, completion: nil)
     }
     

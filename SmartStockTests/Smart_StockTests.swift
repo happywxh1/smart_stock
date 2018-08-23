@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Smart_Stock
+@testable import SmartStock
 
 class Smart_StockTests: XCTestCase {
     
