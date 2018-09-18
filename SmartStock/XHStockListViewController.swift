@@ -29,7 +29,7 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
         
         //create collection view
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.lightGray
+        collectionView.backgroundColor = UIColor.white
         super.init(nibName: nil, bundle: nil)
     }
     

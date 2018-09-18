@@ -31,10 +31,11 @@ class stockCurrentQuoteInfo{
     var peRatio: Double!
     var week52High: Double!
     var week52Low: Double!
-    var latestEPS: Double!
+    var ttmEPS: Double!
     var marketCap: Double!
     var dividend: Double!
     var dividendRate: Double! //for the percentage
+    var latestVolume: Double!   //in the unit of Million
     
     required init(symbol: String, price: Double!){
         self.symbol = symbol;
@@ -146,7 +147,8 @@ class XHStockInfoDownloader: NSObject {
                 var stockQuotes = [stockCurrentQuoteInfo]()
                 if let dict = json as? [String:Any]{
                     for symb in stockSymbols{
-                        if let result = dict[symb] as? [String:Any], let quote = result["quote"] as?[String:Any]{
+                        if let result = dict[symb] as? [String:Any], let quote = result["quote"] as?[String:Any],
+                            let stats = result["stats"] as?[String:Any] {
                             let stockQuote = stockCurrentQuoteInfo(symbol: symb, price: quote["latestPrice"] as? Double)
                             stockQuote.companyName = quote["companyName"] as? String
                             stockQuote.todayOpen = quote["open"] as! Double
@@ -157,6 +159,10 @@ class XHStockInfoDownloader: NSObject {
                             stockQuote.week52High = quote["week52High"] as! Double
                             stockQuote.peRatio = quote["peRatio"] as! Double
                             stockQuote.marketCap = quote["marketCap"] as! Double
+                            stockQuote.latestVolume = (quote["latestVolume"] as! Double)/100000
+                            stockQuote.ttmEPS = stats["ttmEPS"] != nil ? stats["ttmEPS"] as! Double : 0;
+                            stockQuote.dividendRate = stats["dividendRate"] as! Double
+                            stockQuote.dividend = stats["dividendYield"] as! Double
                             stockQuotes.append(stockQuote)
                         }
                     }

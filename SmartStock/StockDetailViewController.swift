@@ -9,19 +9,46 @@
 import UIKit
 import Charts
 
-let navigationBarHight = 100
+let navigationBarHight = 50
+let priceChartViewHeight = 200
+let statViewCellReuseIdentifier = "statisticsTableViewCell"
 
-class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBarPositioningDelegate {
-    var stockCurrentQuote:stockCurrentQuoteInfo
-    var plotType = chartType.OneDay
+class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBarPositioningDelegate, UITableViewDelegate, UITableViewDataSource {
+    
+    var stockQuote:stockCurrentQuoteInfo!
     var chartView: LineChartView!
+    var navBar: UINavigationBar!
     var xTime = [String]()
     let networkManager = XHStockInfoDownloader.sharedInstance
     
+    var infoTableView : UITableView!
+    var statistics: Dictionary<String, String>!
+    
     init(stockQuote:stockCurrentQuoteInfo) {
-        self.stockCurrentQuote = stockQuote
-        chartView = LineChartView()
         super.init(nibName: nil, bundle: nil)
+        self.stockQuote = stockQuote
+        self.parseStatistics()
+        
+        chartView = LineChartView()
+        self.view.addSubview(chartView);
+        
+        chartView.snp.makeConstraints { (make)->Void in
+            make.right.left.equalTo(self.view)
+            make.top.equalTo(navBar.snp.bottom)
+            make.height.equalTo(priceChartViewHeight)
+        };
+        
+        infoTableView = UITableView.init(frame: CGRect.zero)
+        infoTableView.delegate = self
+        infoTableView.dataSource = self
+        infoTableView.register(StatisticsTableViewCell.self, forCellReuseIdentifier: statViewCellReuseIdentifier)
+        self.view.addSubview(infoTableView);
+        
+        infoTableView.snp.makeConstraints { (make)->Void in
+            make.right.left.equalTo(self.view)
+            make.top.equalTo(chartView.snp.bottom)
+            make.height.equalTo(200)
+        };
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,30 +58,19 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        let plotType = chartType.OneDay
         weak var weakSelf = self
-        networkManager.fetchStocksChartData(stockSymbol: stockCurrentQuote.symbol!, type:plotType) { (chartData) in
+        networkManager.fetchStocksChartData(stockSymbol: stockQuote.symbol!, type:plotType) { (chartData) in
             DispatchQueue.main.async {
                 weakSelf!.plotChartGraph(data: chartData)
             }
         }
-        /*
-        XHStockInfoDownloader.fetchStocksFinancialData(stockSymbol: stockCurrentQuote.symbol!, type:plotType) {(chartData) in
-            print(chartData)
-        } */
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setNavigationBar()
         view.backgroundColor = .white
-        
-        self.view.addSubview(chartView);
-        
-        chartView.snp.makeConstraints { (make)->Void in
-            make.right.left.equalTo(self.view)
-            make.top.equalTo(self.view).offset(navigationBarHight)
-            make.height.equalTo(300)
-        };
         
         chartView.chartDescription?.enabled = false
         chartView.dragEnabled = true
@@ -73,16 +89,47 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         // Dispose of any resources that can be recreated.
     }
     
-    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-        return .topAttached
+    //MARK: UITableViewDataSource
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.statistics.count;
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = infoTableView.dequeueReusableCell(withIdentifier: statViewCellReuseIdentifier) as! StatisticsTableViewCell
+        cell.setKeyValue(key: Array(statistics.keys)[indexPath.row], value: Array(statistics.values)[indexPath.row])
+        return cell
+    }
+    
+    //MARK: UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(30)
+    }
+    
+    //MARK: Private methods
+    
+    func parseStatistics() {
+        var info = Dictionary<String, String>.init()
+        info["Previous Close"] = String(format: "%.02f",stockQuote.previousClose);
+        info["Open"] = String(format: "%.02f",stockQuote.todayOpen)
+        info["Day's Range"] = String(format: "%.02f,%0.02f",stockQuote.todayLow, stockQuote.todayHigh)
+        info["52 week Range"] = String(format: "%.02f,%0.02f",stockQuote.week52Low, stockQuote.week52High)
+        info["Volume"] = String(format: "%.02f M",stockQuote.latestVolume);
+        info["Market Cap"] = String(format: "%.02f M",stockQuote.marketCap);
+        info["EPS (TTM)"] = String(format: "%.02f M",stockQuote.ttmEPS)
+        info["PE Ratio"] = String(format: "%.02f M",stockQuote.peRatio)
+        info["Dividend"] = String(format: "%.02f M",stockQuote.dividend)
+        
+        self.statistics = info
     }
     
     func setNavigationBar() {
         let screenSize: CGRect = UIScreen.main.bounds
         let navBarFrame = CGRect.init(x: 0, y: 20, width: Int(screenSize.width), height: navigationBarHight)
-        let navBar = UINavigationBar(frame:navBarFrame)
+        navBar = UINavigationBar(frame:navBarFrame)
         navBar.delegate = self
-        let navItem = UINavigationItem(title:stockCurrentQuote.companyName!)
+        let navItem = UINavigationItem(title:stockQuote.companyName!)
         let backButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: #selector(back))
         navItem.leftBarButtonItem = backButton
         
