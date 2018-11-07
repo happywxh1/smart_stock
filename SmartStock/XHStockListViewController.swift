@@ -70,6 +70,10 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
         self.setupNetworkRequest()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
+        
+        //setup footer bar
+        self.navigationController?.toolbar.isHidden = false
+        
     }
 
     override func didReceiveMemoryWarning() {

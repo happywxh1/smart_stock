@@ -41,7 +41,3 @@ enum StockFinancialParams:Int{
     }
     //static let allFinancialParams = StockFinancialParams.kStockEarningPerShare.rawValue...StockFinancialParams.kStockNumberOfShares.rawValue
 }
-
-class SmartStockUtils: NSObject {
-
-}
