@@ -15,28 +15,14 @@ let priceChangeLabelHeight = 30
 let priceChangeLabelWidth = 50
 
 class XHStockListCollectionViewCell: UICollectionViewCell {
-    
     //Mark: Properties
-    
     var priceLabel: UILabel!
     var priceChangeLabel: UILabel!
     var stockSymbol : UILabel!
     var companyName : UILabel!
     var currentPriceChange: Double! //compare with yestery
+    var stockInfo: StockCurrentQuote?
     
-    var stockInfo: stockCurrentQuoteInfo? {
-        didSet {
-            if let s = stockInfo {
-                priceLabel.text = String(format: "%.02f",s.currentPrice)
-                stockSymbol.text = s.symbol
-                companyName.text = s.companyName
-                currentPriceChange = s.currentPrice - s.previousClose!
-                priceChangeLabel.text = String(format: "%.02f",self.currentPriceChange)
-                priceChangeLabel.backgroundColor = (self.currentPriceChange>0 ? .green : .red)
-                setNeedsLayout()
-            }
-        }
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,6 +65,26 @@ class XHStockListCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        priceLabel.text = nil
+        companyName.text = nil
+        priceChangeLabel.text = nil
+        stockSymbol.text = nil
+    }
+    
+    func setStockInfo(quote:StockCurrentQuote?, keyStats: StockKeyStats?) -> Void {
+        if quote == nil || keyStats == nil {
+            return
+        }
+        priceLabel.text = String(format: "%.02f", quote!.latestPrice)
+        stockSymbol.text = quote!.symbol
+        companyName.text = keyStats!.companyName
+        currentPriceChange = quote!.latestPrice - quote!.previousClose
+        priceChangeLabel.text = String(format: "%.02f",self.currentPriceChange)
+        priceChangeLabel.backgroundColor = (self.currentPriceChange>0 ? .green : .red)
     }
     
     override func awakeFromNib() {

@@ -8,38 +8,43 @@
 
 import UIKit
 
-struct StockFinancialCurrency {
-    static let kStockCurrencyUSD = "USD"
-    static let kStockCurrencyRMB = "RMB"
-}
-
-
-class stockDailyPriceResult{
-    var symbol: String?
-    var companyName: String = ""
-    var dailyPrices: [Date: [String: Double]] = [:]
-}
-
-class stockCurrentQuoteInfo{
-    var symbol: String?
-    var currentPrice:Double
+class StockKeyStats{
+    var symbol: String
     var companyName: String?
-    var todayHigh: Double!
-    var todayLow: Double!
-    var previousClose: Double!
-    var todayOpen: Double!
     var peRatio: Double!
     var week52High: Double!
     var week52Low: Double!
     var ttmEPS: Double!
-    var marketCap: Double!
     var dividend: Double!
     var dividendRate: Double! //for the percentage
+    
+    required init(symbol: String){
+        self.symbol = symbol;
+    }
+}
+
+class StockCurrentQuote{
+    var symbol: String
+    var latestPrice:Double!
+    var previousClose: Double!
+    var marketCap: Double!
     var latestVolume: Double!   //in the unit of Million
     
-    required init(symbol: String, price: Double!){
-        self.symbol = symbol;
-        self.currentPrice = price
+    required init(symbol: String){
+        self.symbol = symbol
+    }
+}
+
+class StockPriceDetails{
+    var symbol: String
+    var chartData: [String:Double]
+    var todayHigh: Double!
+    var todayLow: Double!
+    var todayOpen: Double!
+    
+    required init(symbol: String) {
+        self.symbol = symbol
+        chartData = [String:Double]()
     }
 }
 
@@ -52,8 +57,9 @@ enum chartType{
 
 class XHStockInfoDownloader: NSObject {
     //to fetch stock information from finance API
-    let apiKey = "UAI3PPF7GSHSOMW5"
-    let baseURL = "https://api.iextrading.com/1.0/"
+    let apiKey = "pk_9fef3fe9c23e4e4da7f45aef2ce85f38"
+    let alphaApiKey = "UAI3PPF7GSHSOMW5"
+    let baseURL = "https://cloud.iexapis.com/"
     var financialParams: Array<String>?
     let performQueue = DispatchQueue(label: "stockInfoDownloader", attributes: .concurrent)
     static let sharedInstance = XHStockInfoDownloader()
@@ -99,9 +105,13 @@ class XHStockInfoDownloader: NSObject {
         }
         task.resume()
     }
-    
-    class func fetchStocksCurrentPrices_Deprecate(stockSymbols:[String], completion:@escaping (([stockCurrentQuoteInfo])) -> Void){
-        let stockURL = URL(string: "https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=\(stockSymbols.joined(separator: ","))&apikey=\(apiKey)&datatype=json")
+
+    func fetchStocksCurrentPrices_Deprecate(stockSymbols:[String], completion:@escaping (([StockCurrentQuote])) -> Void){
+        let url = "https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols="
+            + stockSymbols.joined(separator: ",")
+            + "&apikey=" + alphaApiKey + "&datatype=json"
+        
+        let stockURL = URL(string: url)
         
         let request = URLRequest(url: stockURL!)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -115,11 +125,11 @@ class XHStockInfoDownloader: NSObject {
             }
             
             let json = try! JSONSerialization.jsonObject(with: data, options: [])
-            var prices = [stockCurrentQuoteInfo]()
+            var prices = [StockCurrentQuote]()
             if let dict = json as? [String:Any], let results = dict["Stock Quotes"] as? [Any] {
                 for case let price as [String:Any] in results{
                     if let symbol = price["1. symbol"] as? String, let p = price["2. price"] as? String{
-                        prices.append(stockCurrentQuoteInfo(symbol: symbol, price: Double(p)))
+                        prices.append(StockCurrentQuote(symbol: symbol, price: Double(p)!))
                     }
                 }
             }
@@ -127,12 +137,35 @@ class XHStockInfoDownloader: NSObject {
         }
         task.resume()
     }
-    */
-    func fetchStocksCurrentPrices(stockSymbols:[String], completion:@escaping (([stockCurrentQuoteInfo])) -> Void){
+ */
+    
+    func fetchQuoteAndStatsOfStocks(stockSymbols:[String], completion:@escaping (([String: StockKeyStats]), ([String: StockCurrentQuote])) -> Void){
+        var stocksStats = [String: StockKeyStats]()
+        var stocksQuote = [String: StockCurrentQuote]()
+        let dispatchGroup = DispatchGroup()
+
+        for symb in stockSymbols{
+            dispatchGroup.enter()
+            dispatchGroup.enter()
+            self._fetchKeyStatsOfStock(stockSymbol: symb) { (stockStats) in
+                dispatchGroup.leave()
+                stocksStats[symb] = stockStats
+            }
+            self._fetchQuoteOfStock(stockSymbol: symb) { (stockQuote) in
+                dispatchGroup.leave()
+                stocksQuote[symb] = stockQuote
+            }
+        }
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            completion(stocksStats, stocksQuote)
+        }
+    }
+    
+    func _fetchKeyStatsOfStock(stockSymbol:String, completion:@escaping ((StockKeyStats)) -> Void){
+        let endpoint = "stable/stock/\(stockSymbol)/stats"
+        let statsURL = URL(string: self.constUrlForEndpoint(endpoint: endpoint))
+        let request = URLRequest(url: statsURL!)
         performQueue.async {
-            let stockURL = URL(string: (self.baseURL+"stock/market/batch?symbols=\(stockSymbols.joined(separator: ","))&&types=quote,stats&range=1m&last=1"))
-            
-            let request = URLRequest(url: stockURL!)
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard error == nil else {
                     print(error!)
@@ -142,41 +175,53 @@ class XHStockInfoDownloader: NSObject {
                     print("Data is empty")
                     return
                 }
-                
                 let json = try! JSONSerialization.jsonObject(with: data, options: [])
-                var stockQuotes = [stockCurrentQuoteInfo]()
+                let stockStats = StockKeyStats(symbol: stockSymbol)
                 if let dict = json as? [String:Any]{
-                    for symb in stockSymbols{
-                        if let result = dict[symb] as? [String:Any], let quote = result["quote"] as?[String:Any],
-                            let stats = result["stats"] as?[String:Any] {
-                            let stockQuote = stockCurrentQuoteInfo(symbol: symb, price: quote["latestPrice"] as? Double)
-                            stockQuote.companyName = quote["companyName"] as? String
-                            stockQuote.todayOpen = quote["open"] as! Double
-                            stockQuote.previousClose = quote["open"] as! Double
-                            stockQuote.todayHigh = quote["high"] as! Double
-                            stockQuote.todayLow = quote["low"] as! Double
-                            stockQuote.week52Low = quote["week52Low"] as! Double
-                            stockQuote.week52High = quote["week52High"] as! Double
-                            stockQuote.peRatio = quote["peRatio"] as! Double
-                            stockQuote.marketCap = quote["marketCap"] as! Double
-                            stockQuote.latestVolume = (quote["latestVolume"] as! Double)/100000
-                            stockQuote.ttmEPS = stats["ttmEPS"] != nil ? stats["ttmEPS"] as! Double : 0;
-                            stockQuote.dividendRate = stats["dividendRate"] as! Double
-                            stockQuote.dividend = stats["dividendYield"] as! Double
-                            stockQuotes.append(stockQuote)
-                        }
-                    }
-                    
+                    stockStats.companyName = dict["companyName"] as? String
+                    stockStats.week52Low = dict["week52low"] as! Double
+                    stockStats.week52High = dict["week52high"] as! Double
+                    stockStats.peRatio = dict["peRatio"] as! Double
+                    stockStats.ttmEPS = dict["ttmEPS"] != nil ? dict["ttmEPS"] as! Double : 0;
+                    stockStats.dividend = dict["dividendYield"] is NSNull ? 0.0: dict["dividendYield"] as! Double
                 }
-                completion(stockQuotes)
+                completion(stockStats)
             }
             task.resume()
         }
     }
     
-    func fetchStocksChartData(stockSymbol:String, type:chartType, completion:@escaping ([String:Double]) -> Void){
+    func _fetchQuoteOfStock(stockSymbol:String, completion:@escaping ((StockCurrentQuote)) -> Void){
+        let endpoint = "stable/stock/\(stockSymbol)/quote"
+        let statsURL = URL(string: self.constUrlForEndpoint(endpoint: endpoint))
+        let request = URLRequest(url: statsURL!)
         performQueue.async {
-            var chartAPI = "stock/" + stockSymbol
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                let json = try! JSONSerialization.jsonObject(with: data, options: [])
+                let stockQuote = StockCurrentQuote(symbol: stockSymbol)
+                if let dict = json as? [String:Any]{
+                    stockQuote.latestPrice = dict["latestPrice"] as! Double
+                    stockQuote.previousClose = dict["previousClose"] as! Double
+                    stockQuote.marketCap = self._getMarketCap(quote: dict)
+                    stockQuote.latestVolume = (dict["latestVolume"] as! Double)/100000.0
+                }
+                completion(stockQuote)
+            }
+            task.resume()
+        }
+    }
+    
+    func fetchStocksChartData(stockSymbol:String, type:chartType, completion:@escaping (StockPriceDetails) -> Void){
+        performQueue.async {
+            var chartAPI = "stable/stock/" + stockSymbol
             var timeKey:String = "data"
             var priceKey:String = "open"
             switch type {
@@ -195,7 +240,7 @@ class XHStockInfoDownloader: NSObject {
                 chartAPI += "/chart/1y"
                 break;
             }
-            let stockURL = URL(string: self.baseURL+chartAPI)
+            let stockURL = URL(string: self.constUrlForEndpoint(endpoint: chartAPI))
             
             let request = URLRequest(url: stockURL!)
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -209,15 +254,19 @@ class XHStockInfoDownloader: NSObject {
                 }
                 
                 let json = try! JSONSerialization.jsonObject(with: data, options: [])
-                var chartData = [String:Double]()
+                let priceDetails = StockPriceDetails(symbol: stockSymbol)
                 if let arrays = json as? [[String:Any]]{
                     for dict in arrays {
                         if let key = dict[timeKey] as? String, let price = dict[priceKey] as? Double {
-                            chartData[key] = price
+                            priceDetails.chartData[key] = price
                         }
                     }
+                    let latest = arrays.last
+                    priceDetails.todayHigh = latest!["high"] as! Double
+                    priceDetails.todayLow = latest!["low"] as! Double
+                    priceDetails.todayOpen = latest!["open"] as! Double
                 }
-                completion(chartData)
+                completion(priceDetails)
             }
             task.resume()
         }
@@ -321,5 +370,23 @@ class XHStockInfoDownloader: NSObject {
             }
         }
         return result
+    }
+    
+    func constUrlForEndpoint(endpoint:String) -> String{
+        var separator = "?"
+        if endpoint.contains("?"){
+            separator = "&"
+        }
+        return baseURL + endpoint + separator + "token=" + apiKey;
+    }
+    
+    func _getMarketCap(quote:[String:Any]) -> Double {
+        if !(quote["marketCap"] is NSNull) {
+            return (quote["marketCap"] as! Double) / 1000000.0
+        }
+        if let price = quote["latestPrice"] as? Double, let shares = quote["float"] as? Double {
+            return price * shares / 1000000.0
+        }
+        return 0.0
     }
 }

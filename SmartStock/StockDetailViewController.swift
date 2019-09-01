@@ -15,7 +15,8 @@ let statViewCellReuseIdentifier = "statisticsTableViewCell"
 
 class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBarPositioningDelegate, UITableViewDelegate, UITableViewDataSource {
     
-    var stockQuote:stockCurrentQuoteInfo!
+    var stockQuote:StockCurrentQuote!
+    var stockStats:StockKeyStats!
     var chartView: LineChartView!
     var navBar: UINavigationBar!
     var xTime = [String]()
@@ -24,9 +25,10 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
     var infoTableView : UITableView!
     var statistics: Dictionary<String, String>!
     
-    init(stockQuote:stockCurrentQuoteInfo) {
+    init(stockQuote:StockCurrentQuote, stockStats:StockKeyStats) {
         super.init(nibName: nil, bundle: nil)
         self.stockQuote = stockQuote
+        self.stockStats = stockStats
         self.parseStatistics()
         
         chartView = LineChartView()
@@ -47,7 +49,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         infoTableView.snp.makeConstraints { (make)->Void in
             make.right.left.equalTo(self.view)
             make.top.equalTo(chartView.snp.bottom)
-            make.height.equalTo(200)
+            make.bottom.equalTo(self.view)
         };
     }
     
@@ -60,9 +62,13 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         
         let plotType = chartType.OneDay
         weak var weakSelf = self
-        networkManager.fetchStocksChartData(stockSymbol: stockQuote.symbol!, type:plotType) { (chartData) in
+        networkManager.fetchStocksChartData(stockSymbol: stockQuote.symbol, type:plotType) { (priceDetails) in
             DispatchQueue.main.async {
-                weakSelf!.plotChartGraph(data: chartData)
+                weakSelf!.chartView.leftAxis.axisMinimum = priceDetails.todayLow - 5*(priceDetails.todayHigh -  priceDetails.todayLow)
+                weakSelf!.plotChartGraph(data: priceDetails.chartData)
+                weakSelf!.statistics["Open"] = String(format: "%.02f",priceDetails.todayOpen)
+                weakSelf!.statistics["Day Range"] = String(format: "%.02f,%0.02f",priceDetails.todayLow, priceDetails.todayHigh)
+                weakSelf!.infoTableView.reloadData()
             }
         }
     }
@@ -104,7 +110,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
     //MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(30)
+        return CGFloat(40)
     }
     
     //MARK: Private methods
@@ -112,15 +118,13 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
     func parseStatistics() {
         var info = Dictionary<String, String>.init()
         info["Previous Close"] = String(format: "%.02f",stockQuote.previousClose);
-        info["Open"] = String(format: "%.02f",stockQuote.todayOpen)
-        info["Day's Range"] = String(format: "%.02f,%0.02f",stockQuote.todayLow, stockQuote.todayHigh)
-        info["52 week Range"] = String(format: "%.02f,%0.02f",stockQuote.week52Low, stockQuote.week52High)
         info["Volume"] = String(format: "%.02f M",stockQuote.latestVolume);
-        info["Market Cap"] = String(format: "%.02f M",stockQuote.marketCap);
-        info["EPS (TTM)"] = String(format: "%.02f M",stockQuote.ttmEPS)
-        info["PE Ratio"] = String(format: "%.02f M",stockQuote.peRatio)
-        info["Dividend"] = String(format: "%.02f M",stockQuote.dividend)
         
+        info["52 week Range"] = String(format: "%.02f,%0.02f",stockStats.week52Low, stockStats.week52High)
+        info["Market Cap"] = String(format: "%.02f M",stockQuote.marketCap);
+        info["EPS (TTM)"] = String(format: "%.02f M",stockStats.ttmEPS)
+        info["PE Ratio"] = String(format: "%.02f M",stockStats.peRatio)
+        info["Dividend"] = String(format: "%.02f M",stockStats.dividend)
         self.statistics = info
     }
     
@@ -129,7 +133,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         let navBarFrame = CGRect.init(x: 0, y: 20, width: Int(screenSize.width), height: navigationBarHight)
         navBar = UINavigationBar(frame:navBarFrame)
         navBar.delegate = self
-        let navItem = UINavigationItem(title:stockQuote.companyName!)
+        let navItem = UINavigationItem(title:stockStats.companyName!)
         let backButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: #selector(back))
         navItem.leftBarButtonItem = backButton
         
@@ -172,7 +176,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
         
         set1.fillAlpha = 1
-        set1.fill = Fill(linearGradient: gradient, angle: 90) //.linearGradient(gradient, angle: 90)
+        set1.fill = Fill(linearGradient: gradient, angle: 90)
         set1.drawFilledEnabled = true
         
         let data = LineChartData(dataSet: set1)

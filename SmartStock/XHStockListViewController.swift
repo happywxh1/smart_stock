@@ -11,12 +11,15 @@ import UIKit
 let tableViewCellReuseIdentifier = "stockCell"
 
 //todo: rename to view controller and put table view in separate file
-class XHStockListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
-    var searchResults: [Double] = []
-    var stockCurrentQuotes: [stockCurrentQuoteInfo] = []
+class XHStockListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
+    var stockQuotes = [String: StockCurrentQuote]()
+    var stockKeyStats = [String: StockKeyStats]()
     var stockSymbols = ["AAPL", "BABA", "FB", "AMAT","SNAP"]
     
-    let searchController = UISearchController(searchResultsController: nil)
+    let searchBar = UISearchBar()
+    var searchItems = [String]()
+    var isSearchMode: Bool = false
+    
     let networkManager = XHStockInfoDownloader.sharedInstance
     
     var collectionView: UICollectionView
@@ -26,10 +29,12 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = XHStockListCollectionViewCell.cellSize();
         layout.minimumLineSpacing = 2
+        layout.scrollDirection = UICollectionViewScrollDirection.vertical
         
         //create collection view
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,38 +47,32 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.clipsToBounds = true
-        
-        self.view.addSubview(collectionView)
+        self.view.backgroundColor = UIColor.white
         
         //set up searchbar
-        searchController.searchBar.placeholder = " Search..."
-        searchController.searchBar.sizeToFit()
-        searchController.searchResultsUpdater = self
-        if #available(iOS 11.0, *) {
-            self.navigationItem.searchController = searchController
-            self.navigationItem.hidesSearchBarWhenScrolling = false
-        } else {
-            // Fallback on earlier versions
-            self.navigationItem.titleView = searchController.searchBar
-        }
+        searchBar.placeholder = " Search..."
+        searchBar.sizeToFit()
+        searchBar.showsCancelButton = true
+        searchBar.delegate = self
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(searchBar)
+        searchBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         definesPresentationContext = true
         
         //set up collection view
-        collectionView.snp.makeConstraints { (make)->Void in
-            make.top.equalTo(self.view).offset(44)
-            make.left.right.bottom.equalTo(self.view)
-        }
+        self.view.addSubview(collectionView)
+        collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(XHStockListCollectionViewCell.self, forCellWithReuseIdentifier: tableViewCellReuseIdentifier)
         
         self.setupNetworkRequest()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        //setup footer bar
-        self.navigationController?.toolbar.isHidden = false
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,12 +87,13 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return stockCurrentQuotes.count
+        return isSearchMode ? searchItems.count : stockSymbols.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tableViewCellReuseIdentifier, for: indexPath) as! XHStockListCollectionViewCell
-        cell.stockInfo = stockCurrentQuotes[indexPath.row]
+        let symb = isSearchMode ? searchItems[indexPath.row] : stockSymbols[indexPath.row]
+        cell.setStockInfo(quote: stockQuotes[symb], keyStats: stockKeyStats[symb])
         return cell
     }
     
@@ -108,7 +108,8 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailVC = StockDetailViewController.init(stockQuote:stockCurrentQuotes[indexPath.row])
+        let symb = stockSymbols[indexPath.row]
+        let detailVC = StockDetailViewController.init(stockQuote: stockQuotes[symb]!, stockStats: stockKeyStats[symb]!)
         self.navigationController?.present(detailVC, animated: true, completion: nil)
     }
     
@@ -124,58 +125,70 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
         NotificationCenter.default.removeObserver(self)
     }
     
-    func searchStockFianceWithSymbol(symbol: String) {
-        //TODO
-    }
-    
-    func filterContentForSearchText(_ searchText: String, scope: String = "All")  {
+    func _filterContentForSearchText(_ searchText: String)  {
         let length = searchText.count
         
         if length > 0 {
-            searchStockFianceWithSymbol(symbol: searchText)
+            searchItems.removeAll()
+            for symb in stockSymbols {
+                if symb.hasPrefix(searchText){
+                    searchItems.append(symb)
+                }
+            }
         } else {
-            searchResults.removeAll()
-            collectionView.reloadData()
+            searchItems = stockSymbols
         }
-        
+        collectionView.reloadData()
     }
     
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
+    // MARK: - UISearchBarDelegate
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        isSearchMode = false
+        self._filterContentForSearchText(searchBar.text!)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchItems.removeAll()
+        searchBar.text = nil
+        isSearchMode = false
+        collectionView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        isSearchMode = true
+        self._filterContentForSearchText(searchText)
+    }
+    
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return UIBarPosition.topAttached
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        /*
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 collectionView.contentInset = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0)
                 UIView.animate(withDuration: 0.25, animations: { () -> Void in
                     self.view.layoutIfNeeded()
                 })
             }
- */
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        /*
         if let _ = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                 UIView.animate(withDuration: 0.25, animations: { () -> Void in
                     self.view.layoutIfNeeded()
                 })
         }
- */
     }
 
     // MARK: - Private
     private func setupNetworkRequest()
     {
-        networkManager.fetchStocksCurrentPrices(stockSymbols: stockSymbols, completion: { (fetchedPrices) in
-            DispatchQueue.main.async{
-                self.stockCurrentQuotes = fetchedPrices
-                self.collectionView.reloadData()
-            }
-        })
+        networkManager.fetchQuoteAndStatsOfStocks(stockSymbols: stockSymbols) { (keyStats, quotes) in
+            self.stockQuotes = quotes
+            self.stockKeyStats = keyStats
+            self.collectionView.reloadData()
+        }
         
         // Fetch financial info of all stocks in background
         for s in stockSymbols {
