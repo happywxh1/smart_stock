@@ -20,7 +20,7 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     var searchItems = [String]()
     var isSearchMode: Bool = false
     
-    let networkManager = XHStockInfoDownloader.sharedInstance
+    let networkManager = XHStockInfoDownloader()
     
     var collectionView: UICollectionView
     
@@ -194,12 +194,12 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
         for s in stockSymbols {
             let financial = CoreDataStack.sharedInstance.fetchFinancialHistoryOfStock(symbol: s)
             if let lastUpdateTime = financial?.lastUpdateTime {
-                if(lastUpdateTime.timeIntervalSinceNow < 60 * 60 * 24){
+                if(-lastUpdateTime.timeIntervalSinceNow < 60 * 60 * 24){
                     continue
                 }
             }
-            networkManager.fetchStocksFinancialData(stockSymbol: s) { (financialData) in
-                CoreDataStack.sharedInstance.saveStockFinancialHistoryEntityFrom(symbol: s, dictionary: financialData)
+            networkManager.fetchFinancialsOfStock(stockSymbol: s) { (financialData) in
+               // CoreDataStack.sharedInstance.saveStockFinancialHistoryEntityFrom(symbol: s, dictionary: financialData)
             }
         }
     }

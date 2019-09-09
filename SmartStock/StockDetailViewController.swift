@@ -20,7 +20,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
     var chartView: LineChartView!
     var navBar: UINavigationBar!
     var xTime = [String]()
-    let networkManager = XHStockInfoDownloader.sharedInstance
+    let networkManager = XHStockInfoDownloader()
     
     var infoTableView : UITableView!
     var statistics: Dictionary<String, String>!
