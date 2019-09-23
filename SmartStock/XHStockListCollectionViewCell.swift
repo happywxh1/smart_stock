@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import SnapKit
 
 // define size
 let cellHeight = 40.0
-let priceChangeLabelHeight = 30
-let priceChangeLabelWidth = 50
+let priceChangeLabelHeight = 30.0
+let priceChangeLabelWidth = 50.0
 
 class XHStockListCollectionViewCell: UICollectionViewCell {
     //Mark: Properties
@@ -30,19 +29,20 @@ class XHStockListCollectionViewCell: UICollectionViewCell {
         priceChangeLabel = UILabel()
         priceChangeLabel.textAlignment = .right
         contentView.addSubview(priceChangeLabel)
-        priceChangeLabel.snp.makeConstraints { (make)->Void in
-            make.width.equalTo(priceChangeLabelWidth)
-            make.height.equalTo(priceChangeLabelHeight)
-            make.centerY.equalTo(contentView.snp.centerY)
-            make.right.equalTo(contentView).offset(-10)
-        };
+        NSLayoutConstraint.activate([
+            priceChangeLabel.widthAnchor.constraint(equalToConstant: CGFloat(priceChangeLabelWidth)),
+            priceChangeLabel.heightAnchor.constraint(equalToConstant: CGFloat(priceChangeLabelHeight)),
+            priceChangeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
+            priceChangeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
+        
         priceLabel = UILabel()
         priceLabel.textAlignment = .right
         contentView.addSubview(priceLabel)
-        priceLabel.snp.makeConstraints { (make)->Void in
-            make.right.equalTo(priceChangeLabel.snp.left).offset(-10)
-            make.top.bottom.equalTo(contentView)
-        };
+        NSLayoutConstraint.activate([
+            priceLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            priceLabel.rightAnchor.constraint(equalTo: priceChangeLabel.leftAnchor, constant: -10)
+        ])
         
         stockSymbol = UILabel()
         companyName = UILabel()
@@ -52,15 +52,15 @@ class XHStockListCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(stockSymbol)
         contentView.addSubview(companyName)
         
-        stockSymbol.snp.makeConstraints { (make)->Void in
-            make.top.equalTo(contentView).offset(5)
-            make.left.equalTo(contentView)
-            make.height.equalTo(20)
-        };
-        companyName.snp.makeConstraints { (make)->Void in
-            make.top.equalTo(stockSymbol).offset(10)
-            make.bottom.equalTo(contentView)
-        }
+        NSLayoutConstraint.activate([
+            stockSymbol.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            stockSymbol.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5.0),
+            stockSymbol.heightAnchor.constraint(equalToConstant: 20.0)
+        ])
+        NSLayoutConstraint.activate([
+                   companyName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                   companyName.topAnchor.constraint(equalTo: stockSymbol.topAnchor, constant: 10.0),
+               ])
     }
     
     required init?(coder aDecoder: NSCoder) {

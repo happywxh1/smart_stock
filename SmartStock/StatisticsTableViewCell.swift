@@ -34,19 +34,21 @@ class StatisticsTableViewCell: UITableViewCell {
         keyLabel.textAlignment = .left
         keyLabel.adjustsFontSizeToFitWidth = true
         self.addSubview(keyLabel)
-        keyLabel.snp.makeConstraints { (make)->Void in
-            make.top.bottom.equalTo(self)
-            make.left.equalTo(self.snp.left).offset(8)
-            make.width.equalTo(50)
-        }
-        
+        NSLayoutConstraint.activate([
+            keyLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            keyLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8),
+            keyLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            keyLabel.widthAnchor.constraint(equalToConstant: 50.0)
+        ])
+
         valueLabel.textAlignment = .right
         valueLabel.adjustsFontSizeToFitWidth = true
         self.addSubview(valueLabel)
-        valueLabel.snp.makeConstraints { (make)->Void in
-            make.top.bottom.equalTo(self)
-            make.right.equalTo(self).offset(-4)
-            make.width.equalTo(50)
-        }
+        NSLayoutConstraint.activate([
+            valueLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            valueLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -4),
+            valueLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            valueLabel.widthAnchor.constraint(equalToConstant: 50.0)
+        ])
     }
 }

@@ -199,7 +199,7 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
                 }
             }
             networkManager.fetchFinancialsOfStock(stockSymbol: s) { (financialData) in
-               // CoreDataStack.sharedInstance.saveStockFinancialHistoryEntityFrom(symbol: s, dictionary: financialData)
+                CoreDataStack.sharedInstance.saveStockFinancialHistoryEntityFrom(symbol: s, financials: financialData)
             }
         }
     }

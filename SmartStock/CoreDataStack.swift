@@ -56,20 +56,20 @@ class CoreDataStack: NSObject {
     }
     
     // MARK: - Helper
-    func saveStockFinancialHistoryEntityFrom(symbol:String, dictionary: [Int: [String:Double]]){
+    func saveStockFinancialHistoryEntityFrom(symbol:String, financials: [StockFinancial]){
         let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
         let financialEntity = NSEntityDescription.insertNewObject(forEntityName: "StockFinancialHistory", into: context) as! StockFinancialHistory
         financialEntity.symbol = symbol
         financialEntity.lastUpdateTime = Date() as NSDate
         
-        for (year, values) in dictionary {
+        for entry in financials {
             let yearlyData = NSEntityDescription.insertNewObject(forEntityName: "StockYearlyData", into: context) as! StockYearlyData
-            yearlyData.year = Int16(year)
-            yearlyData.freeCashFlow = values[StockFinancialParams.kStockFreeCashFlow.description()]!
-            yearlyData.revenue = values[StockFinancialParams.kStockRevenue.description()]!
-            yearlyData.netIncome = values[StockFinancialParams.kStockNetIncome.description()]!
-            yearlyData.grossMargin = values[StockFinancialParams.kStockGrossMargin.description()]!
-            yearlyData.earningPerShare = values[StockFinancialParams.kStockEarningPerShare.description()]!
+            yearlyData.year = entry.year
+            yearlyData.freeCashFlow = entry.freeCashFlow
+            yearlyData.revenue = entry.revenue
+            yearlyData.netIncome = entry.netIncome
+            yearlyData.grossMargin = entry.grossMargin
+            yearlyData.earningPerShare = entry.earningPerShare
             yearlyData.owner = financialEntity
             do {
                 try context.save()

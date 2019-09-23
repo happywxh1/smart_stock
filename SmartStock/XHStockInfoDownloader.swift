@@ -19,7 +19,7 @@ class StockKeyStats{
     var dividendRate: Double! //for the percentage
     
     required init(symbol: String){
-        self.symbol = symbol;
+        self.symbol = symbol
     }
 }
 
@@ -48,16 +48,18 @@ class StockPriceDetails{
     }
 }
 
-class StockFinancials{
+class StockFinancial{
     var symbol: String
+    var year: Int16
     var earningPerShare: Double!
     var revenue: Double!
     var netIncome: Double!
     var grossMargin: Double!
     var freeCashFlow: Double!
     
-    required init(symbol: String) {
+    required init(symbol: String, year: Int16) {
         self.symbol = symbol
+        self.year = year
     }
 }
 
@@ -204,12 +206,11 @@ class XHStockInfoDownloader: NSObject {
         })
     }
     
-    func fetchFinancialsOfStock(stockSymbol:String, completion:@escaping ((StockFinancials)) -> Void){
+    func fetchFinancialsOfStock(stockSymbol:String, completion:@escaping (([StockFinancial])) -> Void){
         let baseUrl = "https://financialmodelingprep.com/api/v3/"
-        let incomeUrl = URL(string: baseUrl +  "income-statement/\(stockSymbol)")
-        let cashFlowUrl = URL(string: baseUrl +  "cash-flow-statement/\(stockSymbol)")
+        let incomeUrl = URL(string: baseUrl +  "financials/income-statement/\(stockSymbol)")
+        //let cashFlowUrl = URL(string: baseUrl +  "cash-flow-statement/\(stockSymbol)")
         
-        let financials = StockFinancials(symbol: stockSymbol)
         self.downloadManager.queueDownload(incomeUrl!, completionHandler: { (data, response, error) in
             guard error == nil else {
                 print(error!)
@@ -219,12 +220,25 @@ class XHStockInfoDownloader: NSObject {
                 print("Data is empty")
                 return
             }
+            var financials = [StockFinancial]()
             let json = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let dict = json as? [String:Any], let result = dict["metrics"] as? [String:Any] {
-                financials.earningPerShare = result["EPS"] as! Double
-                financials.revenue = dict["Revenue"] as! Double
-                financials.netIncome = dict["Net Income"] as! Double
-                financials.grossMargin = dict["Gross Margin"] as! Double
+            if let all = json as? [String:Any], let arrays = all["financials"] as? [[String:Any]]{
+                for dict in arrays {
+                    let date =  dict["date"] as! String
+                    let financial = StockFinancial(symbol: stockSymbol, year: Int16(date.prefix(4))!)
+                    financial.earningPerShare = dict["EPS"] as! Double
+                    financial.revenue = dict["Revenue"] as! Double
+                    financial.netIncome = dict["Net Income"] as! Double
+                    financial.grossMargin = dict["Gross Margin"] as! Double
+                    
+                    let cashFlowMargin = dict["Free Cash Flow margin"] as! Double
+                    financial.freeCashFlow = cashFlowMargin * financial.revenue
+
+                    financials.append(financial)
+                    if financials.count > 3 {
+                        break
+                    }
+                }
             }
             completion(financials)
         })

@@ -10,7 +10,7 @@ import UIKit
 import Charts
 
 let navigationBarHight = 50
-let priceChartViewHeight = 200
+let priceChartViewHeight = 200.0
 let statViewCellReuseIdentifier = "statisticsTableViewCell"
 
 class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBarPositioningDelegate, UITableViewDelegate, UITableViewDataSource {
@@ -34,11 +34,12 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         chartView = LineChartView()
         self.view.addSubview(chartView);
         
-        chartView.snp.makeConstraints { (make)->Void in
-            make.right.left.equalTo(self.view)
-            make.top.equalTo(navBar.snp.bottom)
-            make.height.equalTo(priceChartViewHeight)
-        };
+        NSLayoutConstraint.activate([
+            chartView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            chartView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            chartView.topAnchor.constraint(equalTo: navBar.bottomAnchor),
+            chartView.heightAnchor.constraint(equalToConstant: CGFloat(priceChangeLabelHeight)),
+        ])
         
         infoTableView = UITableView.init(frame: CGRect.zero)
         infoTableView.delegate = self
@@ -46,11 +47,12 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         infoTableView.register(StatisticsTableViewCell.self, forCellReuseIdentifier: statViewCellReuseIdentifier)
         self.view.addSubview(infoTableView);
         
-        infoTableView.snp.makeConstraints { (make)->Void in
-            make.right.left.equalTo(self.view)
-            make.top.equalTo(chartView.snp.bottom)
-            make.bottom.equalTo(self.view)
-        };
+        NSLayoutConstraint.activate([
+            infoTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            infoTableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            infoTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            infoTableView.topAnchor.constraint(equalTo: chartView.bottomAnchor)
+        ])
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -158,7 +160,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
                 values.append(ChartDataEntry(x: Double(i), y: yValue[i]))
             }
         }
-        let set1 = LineChartDataSet(values: values, label: "DataSet 1")
+        let set1 = LineChartDataSet(entries: values, label: "DataSet 1")
         
         set1.drawIconsEnabled = false
         set1.drawCirclesEnabled = false
