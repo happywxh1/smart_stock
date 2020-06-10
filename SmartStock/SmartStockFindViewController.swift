@@ -12,6 +12,8 @@ class SmartStockFindViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setToolbarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.view.clipsToBounds = true
         self.view.backgroundColor = UIColor.red
     }

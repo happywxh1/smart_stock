@@ -25,26 +25,69 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
     var infoTableView : UITableView!
     var statistics: Dictionary<String, String>!
     
+    // MARK: Init
+    
     init(stockQuote:StockCurrentQuote, stockStats:StockKeyStats) {
         super.init(nibName: nil, bundle: nil)
         self.stockQuote = stockQuote
         self.stockStats = stockStats
         self.parseStatistics()
         
+        self.setNavigationBar()
+        self.setupChartView()
+        self.setupInfoTable()
+        self.view.backgroundColor = .white
+    }
+    
+    func setNavigationBar() {
+        navBar = UINavigationBar()
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        navBar.delegate = self
+        let navItem = UINavigationItem(title:stockStats.companyName!)
+        let backButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItem.Style.plain, target: nil, action: #selector(back))
+        navItem.leftBarButtonItem = backButton
+        navBar.setItems([navItem], animated: false)
+        self.view.addSubview(navBar)
+        
+        NSLayoutConstraint.activate([
+            navBar.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            navBar.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            navBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            navBar.heightAnchor.constraint(equalToConstant: CGFloat(navigationBarHight)),
+        ])
+    }
+    
+    func setupChartView(){
         chartView = LineChartView()
+        chartView.backgroundColor = .white
+        chartView.translatesAutoresizingMaskIntoConstraints = false
+        chartView.chartDescription?.enabled = false
+        chartView.dragEnabled = true
+        chartView.setScaleEnabled(true)
+        chartView.pinchZoomEnabled = true
+        chartView.drawGridBackgroundEnabled = false
+        chartView.rightAxis.enabled = false
+        chartView.legend.enabled = false
+        chartView.xAxis.enabled = true
+        chartView.xAxis.labelPosition = .bottom
+        chartView.xAxis.valueFormatter = self
+        
         self.view.addSubview(chartView);
         
         NSLayoutConstraint.activate([
             chartView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             chartView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             chartView.topAnchor.constraint(equalTo: navBar.bottomAnchor),
-            chartView.heightAnchor.constraint(equalToConstant: CGFloat(priceChangeLabelHeight)),
+            chartView.heightAnchor.constraint(equalToConstant: CGFloat(priceChartViewHeight)),
         ])
-        
+    }
+    
+    func setupInfoTable(){
         infoTableView = UITableView.init(frame: CGRect.zero)
         infoTableView.delegate = self
         infoTableView.dataSource = self
         infoTableView.register(StatisticsTableViewCell.self, forCellReuseIdentifier: statViewCellReuseIdentifier)
+        infoTableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(infoTableView);
         
         NSLayoutConstraint.activate([
@@ -73,23 +116,6 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
                 weakSelf!.infoTableView.reloadData()
             }
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.setNavigationBar()
-        view.backgroundColor = .white
-        
-        chartView.chartDescription?.enabled = false
-        chartView.dragEnabled = true
-        chartView.setScaleEnabled(true)
-        chartView.pinchZoomEnabled = true
-        chartView.drawGridBackgroundEnabled = false
-        chartView.rightAxis.enabled = false
-        chartView.legend.enabled = false
-        chartView.xAxis.enabled = true
-        chartView.xAxis.labelPosition = .bottom
-        chartView.xAxis.valueFormatter = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -130,21 +156,8 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         self.statistics = info
     }
     
-    func setNavigationBar() {
-        let screenSize: CGRect = UIScreen.main.bounds
-        let navBarFrame = CGRect.init(x: 0, y: 20, width: Int(screenSize.width), height: navigationBarHight)
-        navBar = UINavigationBar(frame:navBarFrame)
-        navBar.delegate = self
-        let navItem = UINavigationItem(title:stockStats.companyName!)
-        let backButton = UIBarButtonItem.init(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: #selector(back))
-        navItem.leftBarButtonItem = backButton
-        
-        navBar.setItems([navItem], animated: false)
-        self.view.addSubview(navBar)
-    }
-    
     @objc func back(){
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func plotChartGraph(data:[String:Double]){
@@ -155,7 +168,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
             yValue.append(y)
         }
         var values = [ChartDataEntry]()
-        for  i in 0..<xTime.count {
+        for  i in 0..<yValue.count {
             if(yValue[i]>0){
                 values.append(ChartDataEntry(x: Double(i), y: yValue[i]))
             }

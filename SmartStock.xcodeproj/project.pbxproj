@@ -7,13 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0FDC2124905D59000287C3 /* StockFinancialHistory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC1E24905D58000287C3 /* StockFinancialHistory+CoreDataProperties.swift */; };
+		0E0FDC2224905D59000287C3 /* StatisticsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC1F24905D58000287C3 /* StatisticsTableViewCell.swift */; };
+		0E0FDC2324905D59000287C3 /* StockFinancialHistory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC2024905D59000287C3 /* StockFinancialHistory+CoreDataClass.swift */; };
+		0E0FDC2B24905DEA000287C3 /* SmartStockFindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC2424905DEA000287C3 /* SmartStockFindViewController.swift */; };
+		0E0FDC2C24905DEA000287C3 /* StockFinancials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC2524905DEA000287C3 /* StockFinancials.swift */; };
+		0E0FDC2D24905DEA000287C3 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC2624905DEA000287C3 /* DownloadManager.swift */; };
+		0E0FDC2E24905DEA000287C3 /* SmartStockFooterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC2724905DEA000287C3 /* SmartStockFooterBar.swift */; };
+		0E0FDC2F24905DEA000287C3 /* SmartStockMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC2824905DEA000287C3 /* SmartStockMainViewController.swift */; };
+		0E0FDC3024905DEA000287C3 /* StockFinancials.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDC2924905DEA000287C3 /* StockFinancials.xcdatamodeld */; };
 		354886F82043A4A3002C2AAC /* StockDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354886F72043A4A3002C2AAC /* StockDetailViewController.swift */; };
 		4084555273353EF77B4AFE88 /* Pods_SmartStock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83ED0A08879EAFA6FDD813EA /* Pods_SmartStock.framework */; };
 		EC39A69D20EED85D000E1D5B /* StockFinancials.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC39A69B20EED85D000E1D5B /* StockFinancials.xcdatamodeld */; };
 		EC39A6A320EF02E1000E1D5B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC39A6A220EF02E1000E1D5B /* CoreDataStack.swift */; };
-		EC39A6B0210B83E9000E1D5B /* StockFinancialHistory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC39A6AE210B83E9000E1D5B /* StockFinancialHistory+CoreDataProperties.swift */; };
-		EC39A6B1210B83E9000E1D5B /* StockFinancialHistory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC39A6AF210B83E9000E1D5B /* StockFinancialHistory+CoreDataClass.swift */; };
-		EC39A6B3210CD6A6000E1D5B /* SmartStockUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC39A6B2210CD6A6000E1D5B /* SmartStockUtils.swift */; };
 		ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */; };
 		ECA618311F1BBDCB004FE7E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */; };
 		ECA618361F1BBDCB004FE7E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA618351F1BBDCB004FE7E1 /* Assets.xcassets */; };
@@ -22,7 +28,6 @@
 		ECA6184F1F1BBDCB004FE7E1 /* Smart_StockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6184E1F1BBDCB004FE7E1 /* Smart_StockUITests.swift */; };
 		ECA6185F1F1BC508004FE7E1 /* XHStockListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA6185E1F1BC508004FE7E1 /* XHStockListCollectionViewCell.swift */; };
 		ECA618611F1BD0CD004FE7E1 /* XHStockListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618601F1BD0CD004FE7E1 /* XHStockListViewController.swift */; };
-		ECA618631F2E3FCF004FE7E1 /* XHStockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618621F2E3FCF004FE7E1 /* XHStockInfo.swift */; };
 		ECA618651F2E427E004FE7E1 /* SP500StockSymbolList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618641F2E427E004FE7E1 /* SP500StockSymbolList.swift */; };
 		ECA618671F2E49FF004FE7E1 /* XHStockInfoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618661F2E49FF004FE7E1 /* XHStockInfoDownloader.swift */; };
 		ECA618691F2E569A004FE7E1 /* stockInfoFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA618681F2E569A004FE7E1 /* stockInfoFetcherTests.swift */; };
@@ -46,15 +51,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E0FDC1E24905D58000287C3 /* StockFinancialHistory+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StockFinancialHistory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0E0FDC1F24905D58000287C3 /* StatisticsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewCell.swift; sourceTree = "<group>"; };
+		0E0FDC2024905D59000287C3 /* StockFinancialHistory+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StockFinancialHistory+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0E0FDC2424905DEA000287C3 /* SmartStockFindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartStockFindViewController.swift; sourceTree = "<group>"; };
+		0E0FDC2524905DEA000287C3 /* StockFinancials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockFinancials.swift; sourceTree = "<group>"; };
+		0E0FDC2624905DEA000287C3 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		0E0FDC2724905DEA000287C3 /* SmartStockFooterBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartStockFooterBar.swift; sourceTree = "<group>"; };
+		0E0FDC2824905DEA000287C3 /* SmartStockMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartStockMainViewController.swift; sourceTree = "<group>"; };
+		0E0FDC2A24905DEA000287C3 /* StockFinancials.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StockFinancials.xcdatamodel; sourceTree = "<group>"; };
 		11C27447EA0C2C870F122EFE /* Pods-SmartStock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartStock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock.debug.xcconfig"; sourceTree = "<group>"; };
 		2FB31FE628D7E2724DD978AF /* Pods-SmartStock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartStock.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock.release.xcconfig"; sourceTree = "<group>"; };
 		354886F72043A4A3002C2AAC /* StockDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailViewController.swift; sourceTree = "<group>"; };
 		83ED0A08879EAFA6FDD813EA /* Pods_SmartStock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartStock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC39A69C20EED85D000E1D5B /* StockFinancials.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StockFinancials.xcdatamodel; sourceTree = "<group>"; };
 		EC39A6A220EF02E1000E1D5B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		EC39A6AE210B83E9000E1D5B /* StockFinancialHistory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "StockFinancialHistory+CoreDataProperties.swift"; path = "/Users/happywxh/Documents/projects/smart_stock/SmartStock/StockFinancialHistory+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		EC39A6AF210B83E9000E1D5B /* StockFinancialHistory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "StockFinancialHistory+CoreDataClass.swift"; path = "/Users/happywxh/Documents/projects/smart_stock/SmartStock/StockFinancialHistory+CoreDataClass.swift"; sourceTree = "<absolute>"; };
-		EC39A6B2210CD6A6000E1D5B /* SmartStockUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SmartStockUtils.swift; path = /Users/happywxh/Documents/projects/smart_stock/SmartStock/SmartStockUtils.swift; sourceTree = "<absolute>"; };
 		ECA618281F1BBDCB004FE7E1 /* SmartStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECA618301F1BBDCB004FE7E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -69,7 +80,6 @@
 		ECA618501F1BBDCB004FE7E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECA6185E1F1BC508004FE7E1 /* XHStockListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHStockListCollectionViewCell.swift; sourceTree = "<group>"; };
 		ECA618601F1BD0CD004FE7E1 /* XHStockListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHStockListViewController.swift; sourceTree = "<group>"; };
-		ECA618621F2E3FCF004FE7E1 /* XHStockInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHStockInfo.swift; sourceTree = "<group>"; };
 		ECA618641F2E427E004FE7E1 /* SP500StockSymbolList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SP500StockSymbolList.swift; sourceTree = "<group>"; };
 		ECA618661F2E49FF004FE7E1 /* XHStockInfoDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHStockInfoDownloader.swift; sourceTree = "<group>"; };
 		ECA618681F2E569A004FE7E1 /* stockInfoFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stockInfoFetcherTests.swift; sourceTree = "<group>"; };
@@ -144,16 +154,21 @@
 			isa = PBXGroup;
 			children = (
 				EC39A69B20EED85D000E1D5B /* StockFinancials.xcdatamodeld */,
-				EC39A6B2210CD6A6000E1D5B /* SmartStockUtils.swift */,
-				EC39A6AF210B83E9000E1D5B /* StockFinancialHistory+CoreDataClass.swift */,
-				EC39A6AE210B83E9000E1D5B /* StockFinancialHistory+CoreDataProperties.swift */,
+				0E0FDC1F24905D58000287C3 /* StatisticsTableViewCell.swift */,
+				0E0FDC2024905D59000287C3 /* StockFinancialHistory+CoreDataClass.swift */,
+				0E0FDC1E24905D58000287C3 /* StockFinancialHistory+CoreDataProperties.swift */,
 				ECA6185E1F1BC508004FE7E1 /* XHStockListCollectionViewCell.swift */,
+				0E0FDC2624905DEA000287C3 /* DownloadManager.swift */,
+				0E0FDC2424905DEA000287C3 /* SmartStockFindViewController.swift */,
+				0E0FDC2724905DEA000287C3 /* SmartStockFooterBar.swift */,
+				0E0FDC2824905DEA000287C3 /* SmartStockMainViewController.swift */,
+				0E0FDC2524905DEA000287C3 /* StockFinancials.swift */,
+				0E0FDC2924905DEA000287C3 /* StockFinancials.xcdatamodeld */,
 				354886F72043A4A3002C2AAC /* StockDetailViewController.swift */,
 				ECA6182B1F1BBDCB004FE7E1 /* AppDelegate.swift */,
 				EC39A6A220EF02E1000E1D5B /* CoreDataStack.swift */,
 				ECA6182F1F1BBDCB004FE7E1 /* Main.storyboard */,
 				ECA618601F1BD0CD004FE7E1 /* XHStockListViewController.swift */,
-				ECA618621F2E3FCF004FE7E1 /* XHStockInfo.swift */,
 				ECA618641F2E427E004FE7E1 /* SP500StockSymbolList.swift */,
 				ECA618661F2E49FF004FE7E1 /* XHStockInfoDownloader.swift */,
 				ECA618351F1BBDCB004FE7E1 /* Assets.xcassets */,
@@ -271,6 +286,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -320,22 +336,16 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-SmartStock/Pods-SmartStock-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartStock/Pods-SmartStock-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartStock/Pods-SmartStock-frameworks.sh\"\n";
 		};
 		65D3723233D83AB0212E0DD6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -362,18 +372,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC39A6B3210CD6A6000E1D5B /* SmartStockUtils.swift in Sources */,
+				0E0FDC2E24905DEA000287C3 /* SmartStockFooterBar.swift in Sources */,
+				0E0FDC2C24905DEA000287C3 /* StockFinancials.swift in Sources */,
+				0E0FDC2B24905DEA000287C3 /* SmartStockFindViewController.swift in Sources */,
 				354886F82043A4A3002C2AAC /* StockDetailViewController.swift in Sources */,
-				ECA618631F2E3FCF004FE7E1 /* XHStockInfo.swift in Sources */,
 				ECA618611F1BD0CD004FE7E1 /* XHStockListViewController.swift in Sources */,
+				0E0FDC2324905D59000287C3 /* StockFinancialHistory+CoreDataClass.swift in Sources */,
+				0E0FDC3024905DEA000287C3 /* StockFinancials.xcdatamodeld in Sources */,
+				0E0FDC2224905D59000287C3 /* StatisticsTableViewCell.swift in Sources */,
 				ECA6185F1F1BC508004FE7E1 /* XHStockListCollectionViewCell.swift in Sources */,
 				EC39A6A320EF02E1000E1D5B /* CoreDataStack.swift in Sources */,
 				ECA618671F2E49FF004FE7E1 /* XHStockInfoDownloader.swift in Sources */,
-				EC39A6B1210B83E9000E1D5B /* StockFinancialHistory+CoreDataClass.swift in Sources */,
 				ECA6182C1F1BBDCB004FE7E1 /* AppDelegate.swift in Sources */,
 				EC39A69D20EED85D000E1D5B /* StockFinancials.xcdatamodeld in Sources */,
-				EC39A6B0210B83E9000E1D5B /* StockFinancialHistory+CoreDataProperties.swift in Sources */,
+				0E0FDC2F24905DEA000287C3 /* SmartStockMainViewController.swift in Sources */,
+				0E0FDC2124905D59000287C3 /* StockFinancialHistory+CoreDataProperties.swift in Sources */,
 				ECA618651F2E427E004FE7E1 /* SP500StockSymbolList.swift in Sources */,
+				0E0FDC2D24905DEA000287C3 /* DownloadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +543,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SmartStock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-Stock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -541,6 +557,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SmartStock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Smart-Stock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -644,6 +661,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		0E0FDC2924905DEA000287C3 /* StockFinancials.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0E0FDC2A24905DEA000287C3 /* StockFinancials.xcdatamodel */,
+			);
+			currentVersion = 0E0FDC2A24905DEA000287C3 /* StockFinancials.xcdatamodel */;
+			path = StockFinancials.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		EC39A69B20EED85D000E1D5B /* StockFinancials.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

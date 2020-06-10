@@ -59,14 +59,16 @@ class XHStockInfoDownloader: NSObject {
     //to fetch stock information from finance API
     let apiKey = "pk_9fef3fe9c23e4e4da7f45aef2ce85f38"
     let baseURL = "https://cloud.iexapis.com/"
-    var financialParams: Array<String>?
+    //var financialParams: Array<String>?
     let performQueue = DispatchQueue(label: "stockInfoDownloader", attributes: .concurrent)
     let downloadManager = DownloadManager()
     
+    /*
     override init() {
         super.init()
         self.financialParams = StockFinancialParams.allFinancialParams()
     }
+ */
     
     func fetchQuoteAndStatsOfStocks(stockSymbols:[String], completion:@escaping (([String: StockKeyStats]), ([String: StockCurrentQuote])) -> Void){
         var stocksStats = [String: StockKeyStats]()
@@ -136,7 +138,7 @@ class XHStockInfoDownloader: NSObject {
                 stockQuote.latestPrice = dict["latestPrice"] as! Double
                 stockQuote.previousClose = dict["previousClose"] as! Double
                 stockQuote.marketCap = self._getMarketCap(quote: dict)
-                stockQuote.latestVolume = (dict["latestVolume"] as! Double)/100000.0
+                stockQuote.latestVolume = (dict["avgTotalVolume"] as! Double)/100000.0
             }
             completion(stockQuote)
         })
@@ -211,12 +213,12 @@ class XHStockInfoDownloader: NSObject {
                 for dict in arrays {
                     let date =  dict["date"] as! String
                     let financial = StockFinancial(symbol: stockSymbol, year: Int16(date.prefix(4))!)
-                    financial.earningPerShare = dict["EPS"] as! Double
-                    financial.revenue = dict["Revenue"] as! Double
-                    financial.netIncome = dict["Net Income"] as! Double
-                    financial.grossMargin = dict["Gross Margin"] as! Double
+                    financial.earningPerShare = self._valueOfField(dict: dict, field:"EPS")
+                    financial.revenue = self._valueOfField(dict: dict, field: "Revenue")
+                    financial.netIncome = self._valueOfField(dict: dict, field: "Net Income")
+                    financial.grossMargin = self._valueOfField(dict: dict, field: "Gross Margin")
                     
-                    let cashFlowMargin = dict["Free Cash Flow margin"] as! Double
+                    let cashFlowMargin = self._valueOfField(dict: dict, field: "Free Cash Flow margin")!
                     financial.freeCashFlow = cashFlowMargin * financial.revenue
 
                     financials.append(financial)
@@ -245,5 +247,14 @@ class XHStockInfoDownloader: NSObject {
             return price * shares / 1000000.0
         }
         return 0.0
+    }
+    
+    func _valueOfField(dict:[String:Any], field:String) -> Double! {
+        if let v = dict[field] as? String{
+            return Double(v)!
+        } else if let v = dict[field] as? Double {
+            return v
+        }
+        return 0
     }
 }

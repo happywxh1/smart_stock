@@ -28,6 +28,7 @@ class XHStockListCollectionViewCell: UICollectionViewCell {
         
         priceChangeLabel = UILabel()
         priceChangeLabel.textAlignment = .right
+        priceChangeLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(priceChangeLabel)
         NSLayoutConstraint.activate([
             priceChangeLabel.widthAnchor.constraint(equalToConstant: CGFloat(priceChangeLabelWidth)),
@@ -37,6 +38,7 @@ class XHStockListCollectionViewCell: UICollectionViewCell {
         
         priceLabel = UILabel()
         priceLabel.textAlignment = .right
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(priceLabel)
         NSLayoutConstraint.activate([
             priceLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -45,10 +47,13 @@ class XHStockListCollectionViewCell: UICollectionViewCell {
         ])
         
         stockSymbol = UILabel()
-        companyName = UILabel()
         stockSymbol.textAlignment = .left
+        stockSymbol.translatesAutoresizingMaskIntoConstraints = false
+        
+        companyName = UILabel()
         companyName.textAlignment = .left
         companyName.adjustsFontSizeToFitWidth = true
+        companyName.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stockSymbol)
         contentView.addSubview(companyName)
         
@@ -85,6 +90,7 @@ class XHStockListCollectionViewCell: UICollectionViewCell {
         currentPriceChange = quote!.latestPrice - quote!.previousClose
         priceChangeLabel.text = String(format: "%.02f",self.currentPriceChange)
         priceChangeLabel.backgroundColor = (self.currentPriceChange>0 ? .green : .red)
+        self.layoutSubviews()
     }
     
     override func awakeFromNib() {

@@ -29,13 +29,16 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = XHStockListCollectionViewCell.cellSize();
         layout.minimumLineSpacing = 2
-        layout.scrollDirection = UICollectionViewScrollDirection.vertical
+        layout.scrollDirection = UICollectionView.ScrollDirection.vertical
         
         //create collection view
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         super.init(nibName: nil, bundle: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,10 +47,12 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     
     //MARK: Properties
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.view.clipsToBounds = true
         self.view.backgroundColor = UIColor.white
+        self.navigationController?.setToolbarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         //set up searchbar
         searchBar.placeholder = " Search..."
@@ -56,7 +61,7 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
         searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(searchBar)
-        searchBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
+        searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         searchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
         searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -110,14 +115,7 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let symb = stockSymbols[indexPath.row]
         let detailVC = StockDetailViewController.init(stockQuote: stockQuotes[symb]!, stockStats: stockKeyStats[symb]!)
-        self.navigationController?.present(detailVC, animated: true, completion: nil)
-    }
-    
-    //SearchBar stuff
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -165,7 +163,7 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                collectionView.contentInset = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0)
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
                 UIView.animate(withDuration: 0.25, animations: { () -> Void in
                     self.view.layoutIfNeeded()
                 })
@@ -174,7 +172,7 @@ class XHStockListViewController: UIViewController, UICollectionViewDataSource, U
     
     @objc func keyboardWillHide(notification: NSNotification) {
         if let _ = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 UIView.animate(withDuration: 0.25, animations: { () -> Void in
                     self.view.layoutIfNeeded()
                 })

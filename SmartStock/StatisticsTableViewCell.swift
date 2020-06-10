@@ -11,7 +11,7 @@ class StatisticsTableViewCell: UITableViewCell {
     let keyLabel = UILabel()
     let valueLabel = UILabel()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupLayout()
     }
@@ -21,7 +21,7 @@ class StatisticsTableViewCell: UITableViewCell {
     }
     
     func setKeyValue(key:String, value:String) -> () {
-        let attributes: [NSAttributedStringKey: Any] = [
+        let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor : UIColor.black,
             .font : UIFont.boldSystemFont(ofSize: 10)
         ]
@@ -33,6 +33,7 @@ class StatisticsTableViewCell: UITableViewCell {
     fileprivate func setupLayout() {
         keyLabel.textAlignment = .left
         keyLabel.adjustsFontSizeToFitWidth = true
+        keyLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(keyLabel)
         NSLayoutConstraint.activate([
             keyLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -43,6 +44,7 @@ class StatisticsTableViewCell: UITableViewCell {
 
         valueLabel.textAlignment = .right
         valueLabel.adjustsFontSizeToFitWidth = true
+        valueLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(valueLabel)
         NSLayoutConstraint.activate([
             valueLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),

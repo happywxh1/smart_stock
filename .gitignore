@@ -12,3 +12,4 @@ DerivedData/
 Addlive.package
 .idea/
 .LSOverride
+Pods/*
