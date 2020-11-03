@@ -184,10 +184,10 @@ class XHStockInfoDownloader: NSObject {
                         priceDetails.chartData[key] = price
                     }
                 }
-                let latest = arrays.last
-                priceDetails.todayHigh = latest!["high"] as! Double
-                priceDetails.todayLow = latest!["low"] as! Double
-                priceDetails.todayOpen = latest!["open"] as! Double
+                let latest = arrays[arrays.count - 2]
+                priceDetails.todayHigh = latest["high"] as? Double
+                priceDetails.todayLow = latest["low"] as? Double
+                priceDetails.todayOpen = latest["open"] as? Double
             }
             completion(priceDetails)
         })

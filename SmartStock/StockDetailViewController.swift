@@ -163,7 +163,8 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
     func plotChartGraph(data:[String:Double]){
         var yValue = [Double]()
         
-        for(x, y) in data{
+        let sortedData = data.sorted{$0.0 < $1.0}
+        for(x, y) in sortedData{
             xTime.append(x)
             yValue.append(y)
         }
@@ -196,6 +197,7 @@ class StockDetailViewController: UIViewController, UINavigationBarDelegate, UIBa
         
         let data = LineChartData(dataSet: set1)
         
+        chartView.leftAxis.axisMinimum = yValue.min() ?? 0
         chartView.data = data
     }
 }

@@ -20,11 +20,11 @@ class SmartStockMainViewController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
         let mainStockVC = UINavigationController(rootViewController: XHStockListViewController())
         mainStockVC.tabBarItem.title = "Home"
-        self.addChildViewController(mainStockVC)
+        self.addChild(mainStockVC)
         
         let smartFindVC = UINavigationController(rootViewController: SmartStockFindViewController())
         smartFindVC.tabBarItem.title = "Find"
-        self.addChildViewController(smartFindVC)
+        self.addChild(smartFindVC)
     }
     
     required init?(coder aDecoder: NSCoder) {
